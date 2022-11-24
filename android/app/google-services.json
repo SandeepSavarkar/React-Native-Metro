@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "927628402221",
+    "project_id": "metro-307e1",
+    "storage_bucket": "metro-307e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927628402221:android:3c392dd770257bdff3e2a4",
+        "android_client_info": {
+          "package_name": "com.metroreactnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "927628402221-038f3pgh1hnngg8c8co7r6h381ohf6dp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZIaB4ndqki_XAp5JLuhvqRReybRLL0Tw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "927628402221-038f3pgh1hnngg8c8co7r6h381ohf6dp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
