@@ -5,7 +5,9 @@ import Button from "../../components/button";
 import InputText from "../../components/InputText";
 import Label from "../../components/label";
 import Routes from "../../router/router";
-
+import { requestUserPermission } from "../../constants/notificationHelper";
+import { useEffect } from "react";
+import messaging from "@react-native-firebase/messaging";
 const Login = ({ navigation }) => {
   const handleLogin = () => {
     navigation.navigate(Routes.SignUp);
@@ -22,7 +24,14 @@ const Login = ({ navigation }) => {
   const handleSubmit = (values) => {
     console.log("Values", values);
   };
+  requestUserPermission();
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
+    });
 
+    return unsubscribe;
+  }, []);
   return (
     <View
       style={{
@@ -43,7 +52,6 @@ const Login = ({ navigation }) => {
       <Formik
         initialValues={{ mobileNumber: "", password: "" }}
         onSubmit={(values) => console.log("onsubmit")}
-        
       >
         {() => (
           <View style={{ width: "100%" }}>

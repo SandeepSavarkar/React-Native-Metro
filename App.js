@@ -6,8 +6,13 @@ import store from "./src/store";
 import commonStyle from "./src/styles/commonStyles";
 import Label from "./src/components/label";
 import { Color } from "./src/utils/color";
+import messaging from "@react-native-firebase/messaging";
 
 const App = () => {
+  messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    console.log("Message handled in the background!", remoteMessage);
+  });
+
   return (
     <SafeAreaView style={commonStyle.container}>
       <Provider store={store}>
