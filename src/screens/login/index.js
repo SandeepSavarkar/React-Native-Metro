@@ -5,6 +5,7 @@ import Button from "../../components/button";
 import InputText from "../../components/InputText";
 import Label from "../../components/label";
 import Routes from "../../router/router";
+import { getAuthInitialValues } from "../../utils/form-helper/initial-values";
 
 const Login = ({ navigation }) => {
   const handleLogin = () => {
@@ -19,8 +20,9 @@ const Login = ({ navigation }) => {
     );
   };
 
-  const handleSubmit = (values) => {
-    console.log("Values", values);
+  const handleSubmit = (values) => () => {
+    console.log("values: ", values);
+    // redirectToHome();
   };
 
   return (
@@ -40,18 +42,14 @@ const Login = ({ navigation }) => {
           }}
         />
       </View>
-      <Formik
-        initialValues={{ mobileNumber: "", password: "" }}
-        onSubmit={(values) => console.log("onsubmit")}
-        
-      >
-        {() => (
+      <Formik initialValues={getAuthInitialValues()}>
+        {({ values }) => (
           <View style={{ width: "100%" }}>
             <InputText
               placeholder="Enter mobile number or username"
               border_radius={20}
               mt={10}
-              name="mobileNumber"
+              name="username"
             />
             <InputText
               placeholder="Enter your password"
@@ -70,7 +68,7 @@ const Login = ({ navigation }) => {
                 backgroundColor: "#0174cf",
               }}
               textStyle={{ fontSize: 20 }}
-              onPress={handleSubmit}
+              onPress={handleSubmit(values)}
             />
             <TouchableOpacity onPress={handleLogin}>
               <Label mt={10} xlarge me={10} style={{ textAlign: "right" }}>

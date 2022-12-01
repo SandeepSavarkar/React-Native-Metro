@@ -9,6 +9,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import Profile from "../screens/profile";
+import orderHistory from "../screens/order-history";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -54,7 +55,7 @@ const BottomTabNavigation = () => {
       />
       <Tab.Screen
         name={Routes.OrderHistory}
-        component={Home}
+        component={orderHistory}
         options={{
           tabBarIcon: ({ color, size }) => (
             <IonIcons name="md-calendar-outline" color={color} size={size} />

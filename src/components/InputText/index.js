@@ -100,6 +100,7 @@ const InputText = (props) => {
           value={props.value}
           maxLength={props.maxLength}
           keyboardType={props.keyboardType}
+          {...props}
         />
         {props.password ? (
           <TouchableOpacity onPress={toggleEye} style={styles.closeIcon}>

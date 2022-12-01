@@ -1,7 +1,17 @@
 import { Component } from "react";
 import { StyleSheet } from "react-native";
 import { Color, ThemeUtils } from "../../utils";
+import { responsiveHeight, responsiveWidth } from "../../utils/themeUtils";
 export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Color.WHITE_SMOKE,
+  },
+  subContainer: {
+    marginHorizontal: responsiveWidth(5),
+    marginTop: responsiveHeight(2),
+    paddingBottom: responsiveHeight(2),
+  },
   imgContainer: {
     flex: 1.5,
     justifyContent: "center",
@@ -11,19 +21,17 @@ export const styles = StyleSheet.create({
     flex: 3,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Color.INPUT_BACKGROUND,
+    backgroundColor: Color.ALICE_BLUE,
     borderTopEndRadius: 50,
     borderTopLeftRadius: 50,
   },
-  img: {
-    width: ThemeUtils.relativeWidth(40),
-    height: ThemeUtils.relativeHeight(20),
-    borderRadius: 70,
-  },
-
   fieldContainer: {
-    width: ThemeUtils.relativeWidth(70),
-    height: ThemeUtils.relativeHeight(45),
-    justifyContent: "space-around",
+    width: "100%",
+    paddingHorizontal: 10,
+  },
+  img: {
+    width: responsiveWidth(40),
+    height: responsiveHeight(20),
+    borderRadius: 70,
   },
 });
