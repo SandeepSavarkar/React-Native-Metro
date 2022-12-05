@@ -18,9 +18,10 @@ const Routes = {
   VerifyNumber: "VerifyNumber",
   VerifyOtp: "VerifyOtp",
   Filter: "Filter",
+  OrderHistoryStack: "OrderHistoryStack",
   OrderHistory: "OrderHistory",
   OrderMedicine: "OrderMedicine",
-  BookConfirm: "BookConfirm",
+  OrderDetails: "OrderDetails",
   TryOn: "TryOn",
   FilterSalons: "FilterSalons",
 };

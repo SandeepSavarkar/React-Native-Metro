@@ -35,7 +35,7 @@ const SignUp = ({ navigation }) => {
         />
         <Button
           btn-lg
-          text="Sign Up"
+          title="Sign Up"
           mt={10}
           containerStyle={{ borderRadius: 20 }}
           buttonStyle={{

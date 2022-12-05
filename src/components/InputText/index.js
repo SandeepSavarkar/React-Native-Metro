@@ -148,7 +148,7 @@ InputText.defaultProps = {
   mb: 0,
   ms: 0,
   me: 0,
-  placeholder: "placeholder",
+  placeholder: "",
   iconColor: Color.BLACK,
   iconSize: responsiveHeight(3),
   pdLeft: responsiveWidth(1.5),

@@ -138,6 +138,7 @@ android {
         applicationId "com.metroreactnative"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        vectorDrawables.useSupportLibrary = true
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
@@ -257,11 +258,6 @@ android {
 
         }
     }
-}
-plugins {
-  id 'com.metroreactnative'
-  // Add the Google services Gradle plugin
-  id 'com.google.gms.google-services'
 }
 
 dependencies {

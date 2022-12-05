@@ -59,7 +59,7 @@ const Login = ({ navigation }) => {
             />
             <Button
               btn-lg
-              text="Login"
+              title="Login"
               mt={10}
               containerStyle={{ borderRadius: 20 }}
               buttonStyle={{

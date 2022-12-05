@@ -11,7 +11,7 @@ import Button from "../../components/button";
 import InputText from "../../components/InputText";
 
 const Profile = (props) => {
-  const { navigation, common } = props;
+  const { navigation } = props;
   const handleLogout = () => {
     navigation.dispatch(
       CommonActions.reset({
@@ -40,11 +40,20 @@ const Profile = (props) => {
       </View>
       <View style={styles.formContainer}>
         <View style={styles.fieldContainer}>
-          <InputText label="Name" border_radius={20} mt={10} />
-          <InputText label="Email" border_radius={20} mt={10} />
-          <InputText label="Mobile" border_radius={20} mt={10} />
+          <InputText label="Name" border_radius={10} mt={10} />
+          <InputText label="Email" border_radius={10} mt={10} />
+          <InputText label="Mobile" border_radius={10} mt={10} />
           <View style={{ alignItems: "center" }}>
-            <Button btn_xl text="Update" border_radius={20} mt={10} />
+            <Button btn_xl title="Update" border_radius={10} mt={10} />
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <Button
+              btn_xl
+              title="Logout"
+              border_radius={10}
+              mt={10}
+              onPress={handleLogout}
+            />
           </View>
         </View>
       </View>
