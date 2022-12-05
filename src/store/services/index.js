@@ -33,6 +33,7 @@ const call = async ({
         try {
           const result = await axiosApiCall(method, url, params);
           resolve(result.data);
+
         } catch (error) {
           if (showMsg && error?.response?.data)
             commonUtils.snackBar({

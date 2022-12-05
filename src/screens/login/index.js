@@ -8,6 +8,7 @@ import Routes from "../../router/router";
 import { requestUserPermission } from "../../constants/notificationHelper";
 import { useEffect } from "react";
 import messaging from "@react-native-firebase/messaging";
+import auth from "@react-native-firebase/auth";
 const Login = ({ navigation }) => {
   const handleLogin = () => {
     navigation.navigate(Routes.SignUp);
@@ -21,8 +22,10 @@ const Login = ({ navigation }) => {
     );
   };
 
-  const handleSubmit = (values) => {
-    console.log("Values", values);
+  const handleSubmit = async (values) => {
+    const confirmation = await auth().signInWithPhoneNumber("+918487840846");
+
+    console.log("Values", confirmation);
   };
   requestUserPermission();
   useEffect(() => {
@@ -55,31 +58,46 @@ const Login = ({ navigation }) => {
       >
         {() => (
           <View style={{ width: "100%" }}>
-            <InputText
-              placeholder="Enter mobile number or username"
-              border_radius={20}
-              mt={10}
-              name="mobileNumber"
-            />
-            <InputText
-              placeholder="Enter your password"
-              border_radius={20}
-              mt={10}
-              name="password"
-            />
-            <Button
-              btn-lg
-              text="Login"
-              mt={10}
-              containerStyle={{ borderRadius: 20 }}
-              buttonStyle={{
-                paddingVertical: 12,
-                borderRadius: 20,
-                backgroundColor: "#0174cf",
+            <Formik
+              initialValues={{
+                 mobileNumber: "", password: "password" 
               }}
-              textStyle={{ fontSize: 20 }}
-              onPress={handleSubmit}
-            />
+              onSubmit={values => console.log(values,'213')}
+            >
+              {({values,handleSubmit,handleChange}) => (
+                <View>
+                  <InputText
+                    placeholder="Enter mobile number or username"
+                    border_radius={20}
+                    mt={10}
+                    name="mobileNumber"
+                    value={values.mobileNumber}
+                    onChangeText={handleChange("mobileNumber")}
+                  />
+                  <InputText
+                    placeholder="Enter your password"
+                    border_radius={20}
+                    mt={10}
+                    name="password"
+                    value={values.password}
+                    onChangeText={handleChange("password")}
+                  />
+                  <Button
+                    btn-lg
+                    text="Login"
+                    mt={10}
+                    containerStyle={{ borderRadius: 20 }}
+                    buttonStyle={{
+                      paddingVertical: 12,
+                      borderRadius: 20,
+                      backgroundColor: "#0174cf",
+                    }}
+                    textStyle={{ fontSize: 20 }}
+                    onPress={handleSubmit}
+                  />
+                </View>
+              )}
+            </Formik>
             <TouchableOpacity onPress={handleLogin}>
               <Label mt={10} xlarge me={10} style={{ textAlign: "right" }}>
                 Sign Up
