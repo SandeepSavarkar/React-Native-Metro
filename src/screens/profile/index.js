@@ -1,15 +1,17 @@
 import { useEffect } from "react";
 import { CommonActions } from "@react-navigation/native";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Label from "../../components/label";
 import Routes from "../../router/router";
 import userActions from "../../store/actions/user";
-// import Styles from '../../utils/commonStyles';
+import { styles } from "./style";
+import Button from "../../components/button";
+import InputText from "../../components/InputText";
 
 const Profile = (props) => {
-  const { navigation, common } = props;
+  const { navigation } = props;
   const handleLogout = () => {
     navigation.dispatch(
       CommonActions.reset({
@@ -24,42 +26,38 @@ const Profile = (props) => {
   }, []);
 
   return (
-    <View>
-      <Text>Profile Screen</Text>
+    <View style={styles.container}>
+      <View style={styles.imgContainer}>
+        <Image
+          source={{
+            uri: "https://www.freepnglogos.com/uploads/medicine-logo-png-1.png",
+          }}
+          style={styles.img}
+        />
+        <Label large mt={20}>
+          User Name
+        </Label>
+      </View>
+      <View style={styles.formContainer}>
+        <View style={styles.fieldContainer}>
+          <InputText label="Name" border_radius={10} mt={10} />
+          <InputText label="Email" border_radius={10} mt={10} />
+          <InputText label="Mobile" border_radius={10} mt={10} />
+          <View style={{ alignItems: "center" }}>
+            <Button btn_xl title="Update" border_radius={10} mt={10} />
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <Button
+              btn_xl
+              title="Logout"
+              border_radius={10}
+              mt={10}
+              onPress={handleLogout}
+            />
+          </View>
+        </View>
+      </View>
     </View>
-    // <View style={Styles.container}>
-    //   <Header title="Profile" />
-    //   <View style={styles.imgContainer}>
-    //     <Image
-    //       source={{
-    //         uri: "https://www.freepnglogos.com/uploads/medicine-logo-png-1.png",
-    //       }}
-    //       style={styles.img}
-    //     />
-    //     <Label large mt={20}>
-    //       User Name
-    //     </Label>
-    //   </View>
-    //   <View style={styles.formContainer}>
-    //     <View style={styles.fieldContainer}>
-    //       <View>
-    //         <EditingInput placeholder="Sandy" label="Name" />
-    //       </View>
-    //       <View>
-    //         <EditingInput
-    //           placeholder="sandysawarkar20@gmail.com"
-    //           label="Email"
-    //         />
-    //       </View>
-    //       <View>
-    //         <EditingInput placeholder="7773885303" label="Mobile" />
-    //       </View>
-    //       <View style={{ alignItems: "center " }}>
-    //         <Button btn_xl text="Update" />
-    //       </View>
-    //     </View>
-    //   </View>
-    // </View>
   );
 };
 

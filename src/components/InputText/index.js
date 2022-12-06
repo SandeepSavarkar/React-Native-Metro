@@ -19,6 +19,7 @@ import Label from "../label";
 
 const InputText = (props) => {
   const [secureEntry, setSecureEntry] = useState(false);
+  
   const toggleEye = () => {
     setSecureEntry(!secureEntry);
   };
@@ -100,6 +101,7 @@ const InputText = (props) => {
           value={props.value}
           maxLength={props.maxLength}
           keyboardType={props.keyboardType}
+          {...props}
         />
         {props.password ? (
           <TouchableOpacity onPress={toggleEye} style={styles.closeIcon}>
@@ -147,7 +149,7 @@ InputText.defaultProps = {
   mb: 0,
   ms: 0,
   me: 0,
-  placeholder: "placeholder",
+  placeholder: "",
   iconColor: Color.BLACK,
   iconSize: responsiveHeight(3),
   pdLeft: responsiveWidth(1.5),

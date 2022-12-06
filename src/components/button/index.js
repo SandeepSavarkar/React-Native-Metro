@@ -79,7 +79,7 @@ const Button = (props) => {
         rippleContainerBorderRadius={30}
         onPress={props.onPress}
       >
-        <Text style={[btnTextStylesArray, props.textStyle]}>{props.text}</Text>
+        <Text style={[btnTextStylesArray, props.textStyle]}>{props.title}</Text>
       </TouchableOpacity>
     </View>
   );
