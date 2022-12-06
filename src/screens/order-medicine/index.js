@@ -15,11 +15,12 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Label from "../../components/label";
 import Routes from "../../router/router";
 import userActions from "../../store/actions/user";
-import { FieldArray, Form, Formik } from "formik";
+import { FieldArray, Form, Formik, useFormikContext } from "formik";
 import InputText from "../../components/InputText";
 import Icon from "react-native-vector-icons/Ionicons";
 import Button from "../../components/button";
 import { styles } from "./style";
+import OrderMedicineForm from "./OrderMedicineForm";
 
 const OrderMedicine = (props) => {
   const { navigation, common } = props;
@@ -54,7 +55,7 @@ const OrderMedicine = (props) => {
       .catch((e) => alert(e));
   }
 
-  function pickMultiple(values) {
+  function pickMultiple(values, setFieldValue) {
     ImagePicker.openPicker({
       multiple: true,
       waitAnimationEnd: false,
@@ -63,15 +64,15 @@ const OrderMedicine = (props) => {
       forceJpg: true,
     })
       .then((images) => {
-        values.images = [...images];
+        setFieldValue("images", [...values.images, ...images]);
       })
       .catch((e) => alert(e));
   }
 
   const handleRemoveItem = useCallback(
-    (values, index) => () => {
-      console.log("values: ", values);
+    (index, values, setFieldValue) => () => {
       values.medicines.splice(index, 1);
+      setFieldValue("medicines", [...values.medicines]);
     },
     []
   );
@@ -98,9 +99,16 @@ const OrderMedicine = (props) => {
               ],
               images: [],
             }}
+            enableReinitialize={true}
             onSubmit={(values) => console.log(values)}
           >
-            {({ handleChange, handleBlur, values, setFieldValue }) => (
+            {({
+              handleChange,
+              handleBlur,
+              values,
+              setFieldValue,
+              getFieldHelpers,
+            }) => (
               <View>
                 <Label
                   onPress={() => pickSingleWithCamera(false, values)}
@@ -112,7 +120,7 @@ const OrderMedicine = (props) => {
                   Capture
                 </Label>
                 <Label
-                  onPress={() => pickMultiple(values)}
+                  onPress={() => pickMultiple(values, setFieldValue)}
                   xlarge
                   color="#0174cf"
                   align="right"
@@ -121,7 +129,7 @@ const OrderMedicine = (props) => {
                   Upload
                 </Label>
                 <View style={{ flexDirection: "row" }}>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item, index) => (
+                  {values?.images?.map((item, index) => (
                     <View
                       style={{
                         marginLeft: 15,
@@ -137,14 +145,14 @@ const OrderMedicine = (props) => {
                         }}
                         onPress={() => {
                           values.images.splice(index, 1);
-                          console.log("Values", values);
+                          setFieldValue("images", [...values.images]);
                         }}
                       >
                         <Icon name="trash-bin-outline" color="red" size={25} />
                       </TouchableOpacity>
                       <Image
                         source={{
-                          uri: "https://www.freepnglogos.com/uploads/medicine-logo-png-1.png",
+                          uri: item.path,
                         }}
                         style={{ height: 50, width: 50 }}
                       />
@@ -222,7 +230,11 @@ const OrderMedicine = (props) => {
                             />
                           </View>
                           <TouchableOpacity
-                            onPress={handleRemoveItem(values, index)}
+                            onPress={handleRemoveItem(
+                              index,
+                              values,
+                              setFieldValue
+                            )}
                           >
                             <Icon
                               name="trash-bin-outline"
@@ -240,7 +252,6 @@ const OrderMedicine = (props) => {
                           createMedicines(),
                         ]);
                         setFieldValue("image", {});
-                        setIsImageUpload(false);
                       }}
                       xlarge
                       color="#0174cf"
@@ -250,6 +261,8 @@ const OrderMedicine = (props) => {
                       + Add Order
                     </Label>
                   </View>
+                  {/* <View> */}
+                  {/* <OrderMedicineForm /> */}
                   <Button
                     mb={10}
                     containerStyle={{ borderRadius: 10, bottom: 0 }}
