@@ -136,6 +136,7 @@ const InputText = (props) => {
   );
 };
 InputText.defaultProps = {
+  placeholderTextColor:Color.BLACK,
   textColor: Color.BLACK,
   backgroundColor: Color.WHITE,
   input_xs: false,

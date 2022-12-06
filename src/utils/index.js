@@ -1,9 +1,10 @@
-import { Color } from './color'
+import { Color,getColor } from './color'
 import DateUtils from './dateUtils'
 import Messages from './messageUtils'
 import Constants from './constants'
 import CommonStyle from './commonStyles'
 import ThemeUtils from './themeUtils'
+
 
 export {
     Color,
@@ -12,4 +13,5 @@ export {
     Constants,
     CommonStyle,
     ThemeUtils,
+    getColor
 };
