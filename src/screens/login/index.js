@@ -5,19 +5,25 @@ import Button from "../../components/button";
 import InputText from "../../components/InputText";
 import Label from "../../components/label";
 import Routes from "../../router/router";
+import { Color, getColor } from "../../utils";
 import { getAuthInitialValues } from "../../utils/form-helper/initial-values";
-
+import { useThemedStyles, useTheme } from "../../components/rn-theme-wrapper";
+import { stylesTest } from "./style";
+import { colors } from "../../utils/getColor";
 const Login = ({ navigation }) => {
+  // const styleTestData = useThemedStyles(stylesTest);
+  // const theme = useTheme();
   const handleLogin = () => {
     navigation.navigate(Routes.SignUp);
   };
   const redirectToHome = () => {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: Routes.Authenticated }],
-      })
-    );
+    // theme.customeTheme(colors.dark);
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 0,
+    //     routes: [{ name: Routes.Authenticated }],
+    //   })
+    // );
   };
 
   const handleSubmit = (values) => () => {
@@ -26,15 +32,15 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginHorizontal: "5%",
-      }}
-    >
-      <View style={styles.container}>
+    <View style={styleTestData.body}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          marginHorizontal: "5%",
+        }}
+      >
         <Image
           style={styles.tinyLogo}
           source={{
