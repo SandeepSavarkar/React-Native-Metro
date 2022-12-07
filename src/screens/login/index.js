@@ -1,15 +1,20 @@
 import { CommonActions } from "@react-navigation/native";
 import { Formik } from "formik";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as Yup from "yup";
 import Button from "../../components/button";
 import InputText from "../../components/InputText";
 import Label from "../../components/label";
 import Routes from "../../router/router";
 import { getAuthInitialValues } from "../../utils/form-helper/initial-values";
+import userActions from "../../store/actions/user";
 
-const Login = ({ navigation }) => {
+const Login = ({ navigation ,userInfo}) => {
   const handleLogin = () => {
-    navigation.navigate(Routes.SignUp);
+    userInfo();
+    // navigation.navigate(Routes.SignUp);
   };
   const redirectToHome = () => {
     navigation.dispatch(
@@ -19,11 +24,21 @@ const Login = ({ navigation }) => {
       })
     );
   };
-
-  const handleSubmit = (values) => () => {
+  
+  const handleSubmit = (values) => {
+    debugger
     console.log("values: ", values);
+     userInfo(values);
     // redirectToHome();
   };
+
+  const LoginSchema = Yup.object().shape({
+    phoneNo: Yup.string().matches(/^[6-9]\d{9}$/, "Phone number is not valid"),
+    password: Yup.string()
+      .min(6, "Minimun length 6")
+      .max(30)
+      .required("Required"),
+  });
 
   return (
     <View
@@ -42,21 +57,34 @@ const Login = ({ navigation }) => {
           }}
         />
       </View>
-      <Formik initialValues={getAuthInitialValues()}>
-        {({ values }) => (
+      <Formik
+        initialValues={{
+          phoneNo: "",
+          password: "",
+        }}
+        validationSchema={LoginSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ values, handleSubmit, handleChange, errors }) => (
           <View style={{ width: "100%" }}>
             <InputText
-              placeholder="Enter mobile number or username"
+              placeholder="Enter mobile number"
               border_radius={20}
               mt={10}
-              name="username"
+              name="phoneNo"
+              value={values.phoneNo}
+              onChangeText={handleChange("phoneNo")}
             />
+            {errors.phoneNo ? <Label> {errors.phoneNo}</Label> : null}
             <InputText
               placeholder="Enter your password"
               border_radius={20}
               mt={10}
               name="password"
+              value={values.password}
+              onChangeText={handleChange("password")}
             />
+            {errors.password ? <Label>{errors.password}</Label> : null}
             <Button
               btn-lg
               title="Login"
@@ -68,7 +96,7 @@ const Login = ({ navigation }) => {
                 backgroundColor: "#0174cf",
               }}
               textStyle={{ fontSize: 20 }}
-              onPress={handleSubmit(values)}
+              onPress={handleSubmit}
             />
             <TouchableOpacity onPress={handleLogin}>
               <Label mt={10} xlarge me={10} style={{ textAlign: "right" }}>
@@ -97,4 +125,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+
+const mapStateToProps = (state) => ({
+  common: state,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      userInfo: userActions.userLoginAction,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+

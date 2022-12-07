@@ -1,5 +1,8 @@
 const serviceEndpoints = {
-  USER_INFO: "todos/1",
+  CHECK: 'check',
+  REGISTER:'register',
+  LOGIN:'login',
+  CHANGE_PASSWORD :'changepassword'
 };
 
 const serviceMethods = {
@@ -9,4 +12,4 @@ const serviceMethods = {
   DELETE: "delete",
 };
 
-export default { serviceEndpoints, serviceMethods };
+export { serviceEndpoints, serviceMethods };

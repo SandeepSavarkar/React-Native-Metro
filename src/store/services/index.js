@@ -1,15 +1,15 @@
 import { checkInternetConnection } from "react-native-offline";
 import { axiosInstance } from "./axiosInstance";
 import commonUtils from "../../utils/commonUtils";
-import servicesConst from "../../constants/service";
+import { serviceMethods } from "../../constants/service";
 
 const axiosApiCall = (method, url, params) => {
   switch (method) {
-    case servicesConst.serviceMethods.POST:
+    case serviceMethods.POST:
       return axiosInstance.post(url, params);
-    case servicesConst.serviceMethods.PUT:
+    case serviceMethods.PUT:
       return axiosInstance.put(url, params);
-    case servicesConst.serviceMethods.DELETE:
+    case serviceMethods.DELETE:
       return axiosInstance.delete(url, params);
     default:
       return axiosInstance.get(url, { params });
@@ -32,6 +32,7 @@ const call = async ({
       return new Promise(async (resolve) => {
         try {
           const result = await axiosApiCall(method, url, params);
+
           resolve(result.data);
         } catch (error) {
           if (showMsg && error?.response?.data)
