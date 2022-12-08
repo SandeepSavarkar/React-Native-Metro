@@ -70,7 +70,7 @@ const OrderMedicine = (props) => {
       .catch((e) => alert(e));
   }
 
-  function pickMultiple(values) {
+  function pickMultiple(values, setFieldValue) {
     ImagePicker.openPicker({
       multiple: true,
       waitAnimationEnd: false,
@@ -79,10 +79,7 @@ const OrderMedicine = (props) => {
       forceJpg: true,
     })
       .then((images) => {
-        // Check This
-        values.images.push(images[0]);
-        // values.images = {...values.images,images};
-        console.log(values.images, "PAPA");
+        setFieldValue("images", [...values.images, ...images]);
       })
       .catch((e) => alert(e));
   }
@@ -129,7 +126,9 @@ const OrderMedicine = (props) => {
             }) => (
               <View>
                 <Label
-                  onPress={() => pickSingleWithCamera(false, values)}
+                  onPress={() =>
+                    pickSingleWithCamera(false, values, setFieldValue)
+                  }
                   xlarge
                   color="#0174cf"
                   align="right"
@@ -138,7 +137,7 @@ const OrderMedicine = (props) => {
                   Capture
                 </Label>
                 <Label
-                  onPress={() => pickMultiple(values)}
+                  onPress={() => pickMultiple(values, setFieldValue)}
                   xlarge
                   color="#0174cf"
                   align="right"
@@ -147,7 +146,7 @@ const OrderMedicine = (props) => {
                   Upload
                 </Label>
                 <View style={{ flexDirection: "row" }}>
-                  {values.images?.map((item, index) => (
+                  {values?.images?.map((item, index) => (
                     <View
                       style={{
                         marginLeft: 15,
@@ -160,17 +159,22 @@ const OrderMedicine = (props) => {
                           position: "absolute",
                           left: 40,
                           top: -20,
+                          zIndex: 1
                         }}
                         onPress={() => {
                           values.images.splice(index, 1);
-                          console.log("Values", values);
+                          setFieldValue("images", values.images);
                         }}
                       >
-                        <Icon name="trash-bin-outline" color="red" size={25} />
+                        <Icon
+                          name="ios-close-circle-outline"
+                          color="red"
+                          size={25}
+                        />
                       </TouchableOpacity>
                       <Image
                         source={{
-                          uri: "https://www.freepnglogos.com/uploads/medicine-logo-png-1.png",
+                          uri: item?.path,
                         }}
                         style={{ height: 50, width: 50 }}
                       />

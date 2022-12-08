@@ -27,9 +27,9 @@ const SignUp = ({ navigation,userRegister }) => {
   };
 
   const SignupSchema = Yup.object().shape({
-    name: Yup.string().max(5, "Too Long!").required("Required"),
+    name: Yup.string().max(50, "Too Long!").required("Required"),
     address: Yup.string().max(250, "Too Long!").required("Required"),
-    phoneNo: Yup.string().matches(/^[6-9]\d{9}$/, "Phone number is not valid"),
+    phoneNo: Yup.string().matches(/^[6-9]\d{9}$/, "Phone number is not valid").required("Required"),
     password: Yup.string()
       .min(6, "Minimun length 6")
       .max(30)
