@@ -2,7 +2,8 @@ const serviceEndpoints = {
   CHECK: 'check',
   REGISTER:'register',
   LOGIN:'login',
-  CHANGE_PASSWORD :'changepassword'
+  CHANGE_PASSWORD :'changepassword',
+  ADD_ORDER:'addOrder'
 };
 
 const serviceMethods = {

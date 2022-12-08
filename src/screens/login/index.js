@@ -9,12 +9,11 @@ import InputText from "../../components/InputText";
 import Label from "../../components/label";
 import Routes from "../../router/router";
 import { getAuthInitialValues } from "../../utils/form-helper/initial-values";
-import userActions from "../../store/actions/user";
+import {user} from "../../store/actions";
 
 const Login = ({ navigation ,userInfo}) => {
   const handleLogin = () => {
-    userInfo();
-    // navigation.navigate(Routes.SignUp);
+    navigation.navigate(Routes.SignUp);
   };
   const redirectToHome = () => {
     navigation.dispatch(
@@ -33,7 +32,7 @@ const Login = ({ navigation ,userInfo}) => {
   };
 
   const LoginSchema = Yup.object().shape({
-    phoneNo: Yup.string().matches(/^[6-9]\d{9}$/, "Phone number is not valid"),
+    phoneNo: Yup.string().matches(/^[6-9]\d{9}$/, "Phone number is not valid").required("Required"),
     password: Yup.string()
       .min(6, "Minimun length 6")
       .max(30)
@@ -127,13 +126,13 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = (state) => ({
-  common: state,
+  common: state.user,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      userInfo: userActions.userLoginAction,
+      userInfo: user.userLoginAction,
     },
     dispatch
   );

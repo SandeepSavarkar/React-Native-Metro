@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { serviceEndpoints, serviceMethods } from "../../constants/service";
 import userTypes from "../../constants/userTypes";
 import call from "../services";
@@ -8,7 +9,6 @@ const userInfoAction = (payload) => ({
 });
 
 const userLoginAction = (params) => async (dispatch) => {
-  debugger;
   call({
     url: serviceEndpoints.LOGIN,
     method: serviceMethods.POST,
@@ -16,14 +16,15 @@ const userLoginAction = (params) => async (dispatch) => {
   }).then((res) => {
     if (res.success) {
       let result = res.data;
+      AsyncStorage.setItem("token", res.data.token);
       delete result.token;
+      AsyncStorage.setItem("user", result);
       dispatch(userInfoAction(result));
     }
   });
 };
 
 const userRegisterAction = (params) => async (dispatch) => {
-  debugger;
   call({
     url: serviceEndpoints.REGISTER,
     method: serviceMethods.POST,
@@ -33,6 +34,8 @@ const userRegisterAction = (params) => async (dispatch) => {
       let result = res.data;
       delete result.token;
       dispatch(userInfoAction(result));
+      AsyncStorage.setItem("token", res.data.token);
+      AsyncStorage.setItem("user", result);
     }
   });
 };
@@ -50,5 +53,5 @@ const serverCheck = () => async (dispatch) => {
 export default {
   userLoginAction,
   serverCheck,
-  userRegisterAction
+  userRegisterAction,
 };

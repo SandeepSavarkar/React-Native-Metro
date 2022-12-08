@@ -22,9 +22,8 @@ const Profile = (props) => {
   };
 
   useEffect(() => {
-    props.userInfo();
+    // props.userInfo();
   }, []);
-
   return (
     <View style={styles.container}>
       <View style={styles.imgContainer}>
@@ -40,9 +39,24 @@ const Profile = (props) => {
       </View>
       <View style={styles.formContainer}>
         <View style={styles.fieldContainer}>
-          <InputText label="Name" border_radius={10} mt={10} />
-          <InputText label="Email" border_radius={10} mt={10} />
-          <InputText label="Mobile" border_radius={10} mt={10} />
+          <InputText
+            label="Name"
+            border_radius={10}
+            mt={10}
+            value={props.userData.name}
+          />
+          <InputText
+            label="Address"
+            border_radius={10}
+            mt={10}
+            value={props.userData.address}
+          />
+          <InputText
+            label="Mobile"
+            border_radius={10}
+            mt={10}
+            value={props.userData.phoneNo.toString()}
+          />
           <View style={{ alignItems: "center" }}>
             <Button btn_xl title="Update" border_radius={10} mt={10} />
           </View>
@@ -62,7 +76,7 @@ const Profile = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  common: state,
+  userData: state.user.user,
 });
 
 const mapDispatchToProps = (dispatch) =>

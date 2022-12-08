@@ -14,23 +14,39 @@ import { connect } from "react-redux";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Label from "../../components/label";
 import Routes from "../../router/router";
-import userActions from "../../store/actions/user";
+import { order } from "../../store/actions/index";
 import { FieldArray, Form, Formik } from "formik";
 import InputText from "../../components/InputText";
 import Icon from "react-native-vector-icons/Ionicons";
 import Button from "../../components/button";
 import { styles } from "./style";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const OrderMedicine = (props) => {
   const { navigation, common } = props;
   const [isImageUpload, setIsImageUpload] = useState(false);
 
-  const handleSubmit = (values) => () => {
+  const handleSubmit = async (values) => {
+    let params = values;
+    params.orderStatus = true;
+
+    var formData = new FormData();
+    formData.append("orderStatus", true);
+    formData.append("medicines", JSON.stringify(values.medicines));
+    await values.images.map((item) => {
+      formData.append(`images`, {
+        name: "Images.jpeg",
+        uri: item.path,
+        type: item.mime,
+      });
+    });
+
+    props.orderPlaced(formData);
     console.log("values: ", values);
   };
 
   useEffect(() => {
-    props.userInfo();
+    // props.userInfo();
   }, []);
 
   const createMedicines = () => ({
@@ -63,15 +79,19 @@ const OrderMedicine = (props) => {
       forceJpg: true,
     })
       .then((images) => {
-        values.images = [...images];
+        // Check This
+        values.images.push(images[0]);
+        // values.images = {...values.images,images};
+        console.log(values.images, "PAPA");
       })
       .catch((e) => alert(e));
   }
 
   const handleRemoveItem = useCallback(
-    (values, index) => () => {
+    (values, index, setFieldValue) => () => {
       console.log("values: ", values);
       values.medicines.splice(index, 1);
+      setFieldValue("medicines", values.medicines);
     },
     []
   );
@@ -98,9 +118,15 @@ const OrderMedicine = (props) => {
               ],
               images: [],
             }}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={handleSubmit}
           >
-            {({ handleChange, handleBlur, values, setFieldValue }) => (
+            {({
+              handleChange,
+              handleBlur,
+              values,
+              setFieldValue,
+              handleSubmit,
+            }) => (
               <View>
                 <Label
                   onPress={() => pickSingleWithCamera(false, values)}
@@ -121,7 +147,7 @@ const OrderMedicine = (props) => {
                   Upload
                 </Label>
                 <View style={{ flexDirection: "row" }}>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item, index) => (
+                  {values.images?.map((item, index) => (
                     <View
                       style={{
                         marginLeft: 15,
@@ -222,7 +248,11 @@ const OrderMedicine = (props) => {
                             />
                           </View>
                           <TouchableOpacity
-                            onPress={handleRemoveItem(values, index)}
+                            onPress={handleRemoveItem(
+                              values,
+                              index,
+                              setFieldValue
+                            )}
                           >
                             <Icon
                               name="trash-bin-outline"
@@ -239,7 +269,6 @@ const OrderMedicine = (props) => {
                           ...values.medicines,
                           createMedicines(),
                         ]);
-                        setFieldValue("image", {});
                         setIsImageUpload(false);
                       }}
                       xlarge
@@ -259,7 +288,7 @@ const OrderMedicine = (props) => {
                       backgroundColor: "#0174cf",
                     }}
                     textStyle={{ fontSize: 20 }}
-                    onPress={handleSubmit(values)}
+                    onPress={handleSubmit}
                     title="Place Order"
                   />
                 </View>
@@ -273,13 +302,13 @@ const OrderMedicine = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  common: state,
+  userData: state.user,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      userInfo: userActions.userInfoServiceAction,
+      orderPlaced: order.addOrderAction,
     },
     dispatch
   );
