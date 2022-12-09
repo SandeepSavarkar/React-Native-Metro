@@ -3,7 +3,8 @@ const serviceEndpoints = {
   REGISTER:'register',
   LOGIN:'login',
   CHANGE_PASSWORD :'changepassword',
-  ADD_ORDER:'addOrder'
+  ADD_ORDER:'addOrder',
+  ORDER_HISTROY:'getOrderData'
 };
 
 const serviceMethods = {

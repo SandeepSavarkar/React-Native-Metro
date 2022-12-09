@@ -9,10 +9,12 @@ import userActions from "../../store/actions/user";
 import { styles } from "./style";
 import Button from "../../components/button";
 import InputText from "../../components/InputText";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = (props) => {
   const { navigation } = props;
   const handleLogout = () => {
+    AsyncStorage.clear()
     navigation.dispatch(
       CommonActions.reset({
         index: 0,

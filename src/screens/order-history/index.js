@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Label from "../../components/label";
 import Routes from "../../router/router";
-import userActions from "../../store/actions/user";
+import orderActions from "../../store/actions/order";
 import { FieldArray, Formik } from "formik";
 import Button from "../../components/button";
 import InputText from "../../components/InputText";
@@ -19,11 +19,13 @@ const OrderHistory = (props) => {
       id,
     });
   };
+  // useEffect(()=>{
+  //   props.orderHistroyInfo();
+  // },[])
 
   const renderItem = ({ item }) => (
     <Card item={item} key={item.id} onPress={handleView} />
   );
-
   return (
     <View style={{ flex: 1, justifyContent: "center", marginHorizontal: 10 }}>
       <FlatList
@@ -36,13 +38,13 @@ const OrderHistory = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  common: state,
+  orderDetail: state.order,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      userInfo: userActions.userInfoServiceAction,
+      orderHistroyInfo: orderActions.OderHistroyAction,
     },
     dispatch
   );
