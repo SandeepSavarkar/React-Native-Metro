@@ -97,7 +97,7 @@ const OrderDetails = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  common: state,
+  user: state,
 });
 
 const mapDispatchToProps = (dispatch) =>
