@@ -9,9 +9,9 @@ import InputText from "../../components/InputText";
 import Label from "../../components/label";
 import Routes from "../../router/router";
 import { getAuthInitialValues } from "../../utils/form-helper/initial-values";
-import {user} from "../../store/actions";
+import { user } from "../../store/actions";
 
-const Login = ({ navigation ,userInfo}) => {
+const Login = ({ navigation, userInfo }) => {
   const handleLogin = () => {
     navigation.navigate(Routes.SignUp);
   };
@@ -23,16 +23,18 @@ const Login = ({ navigation ,userInfo}) => {
       })
     );
   };
-  
+
   const handleSubmit = (values) => {
-    debugger
+    debugger;
     console.log("values: ", values);
-     userInfo(values);
+    userInfo(values);
     // redirectToHome();
   };
 
   const LoginSchema = Yup.object().shape({
-    phoneNo: Yup.string().matches(/^[6-9]\d{9}$/, "Phone number is not valid").required("Required"),
+    phoneNo: Yup.string()
+      .matches(/^[6-9]\d{9}$/, "Phone number is not valid")
+      .required("Required"),
     password: Yup.string()
       .min(6, "Minimun length 6")
       .max(30)
@@ -124,9 +126,8 @@ const styles = StyleSheet.create({
   },
 });
 
-
 const mapStateToProps = (state) => ({
-  common: state.user,
+  user: state.user,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -138,4 +139,3 @@ const mapDispatchToProps = (dispatch) =>
   );
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
-

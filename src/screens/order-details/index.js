@@ -8,6 +8,7 @@ import orderActions from "../../store/actions/order";
 import styles from "./style";
 import { responsiveWidth } from "../../utils/themeUtils";
 import Swiper from "react-native-swiper";
+import DropdownComponent from "./Dropdown";
 
 const OrderDetails = (props) => {
   const { createdAt, medImage, medicines, orderId, orderStatus } =
@@ -90,6 +91,17 @@ const OrderDetails = (props) => {
     <View style={{ flex: 1, marginHorizontal: 10, marginTop: 10 }}>
       <View
         style={{
+          flexDirection: "row",
+          alignItems: "center",
+          display: "flex",
+          width: "100%",
+        }}
+      >
+        <Label xlarge>Change Status</Label>
+        <DropdownComponent />
+      </View>
+      <View
+        style={{
           width: "100%",
           flexDirection: "row",
           alignItems: "center",
@@ -97,7 +109,7 @@ const OrderDetails = (props) => {
         }}
       >
         <View style={{ width: "40%" }}>
-          <Label xlarge>Status</Label>
+          <Label xlarge>Current Status</Label>
         </View>
         <View style={{ width: "60%", alignItems: "center" }}>
           <StatusBadge status="Pending" />
