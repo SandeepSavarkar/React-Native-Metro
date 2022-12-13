@@ -118,9 +118,6 @@ const SignUp = ({ navigation,userRegister }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  common: state,
-});
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
@@ -130,7 +127,7 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(null, mapDispatchToProps)(SignUp);
 
 
 

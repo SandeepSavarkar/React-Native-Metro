@@ -10,11 +10,13 @@ import { styles } from "./style";
 import Button from "../../components/button";
 import InputText from "../../components/InputText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import commonUtils from "../../utils/commonUtils";
 
 const Profile = (props) => {
   const { navigation } = props;
   const handleLogout = () => {
     AsyncStorage.clear()
+    commonUtils.snackBar({message:'Logout Successfully'})
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
