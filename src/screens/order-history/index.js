@@ -1,8 +1,8 @@
-import { useCallback, useEffect } from "react";
-import { CommonActions } from "@react-navigation/native";
+import React, { useCallback, useEffect } from "react";
+import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import Label from "../../components/label";
 import Routes from "../../router/router";
 import orderActions from "../../store/actions/order";
@@ -10,28 +10,40 @@ import { FieldArray, Formik } from "formik";
 import Button from "../../components/button";
 import InputText from "../../components/InputText";
 import Card from "../../components/card";
+import commonUtils from "../../utils/commonUtils";
 
 const OrderHistory = (props) => {
+  const dispatch = useDispatch()
   const { navigation, common } = props;
 
-  const handleView = (id) => () => {
-    navigation.navigate(Routes.OrderDetails, {
-      id,
-    });
+  const handleView = (orderData) => () => {
+    commonUtils.navigate({route:Routes.OrderDetails,param:{orderData}})
+    // navigation.navigate(Routes.OrderDetails, {
+    //   id,
+    // });
   };
-  useEffect(()=>{
-    props.orderHistroyInfo({check:true});
-  })
 
-  const renderItem = ({ item }) => (
-    <Card item={item} key={item.id} onPress={handleView} />
+  useFocusEffect(
+    React.useCallback(() => {
+      // dispatch(orderActions.OderHistroyAction())
+      props.orderHistroyInfo({check:true});
+
+      
+    }, [])
+  );
+
+  const counter = useSelector(state => state.order.order)
+
+  console.log(counter,'orderDetailorderDetail');
+  const renderItem = ({item} ) => (
+    <Card item={item} key={item.orderId} onPress={handleView} />
   );
   return (
     <View style={{ flex: 1, justifyContent: "center", marginHorizontal: 10 }}>
       <FlatList
-        data={[{ id: 1 }, { id: 2 }, 3, 4, 5, 6, 7, 8, 9, 7, 7]}
+        data={counter}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.orderId}
       />
     </View>
   );

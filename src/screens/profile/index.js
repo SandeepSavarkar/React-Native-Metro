@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CommonActions } from "@react-navigation/native";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { bindActionCreators } from "redux";
@@ -15,8 +15,8 @@ import commonUtils from "../../utils/commonUtils";
 const Profile = (props) => {
   const { navigation } = props;
   const handleLogout = () => {
-    AsyncStorage.clear()
-    commonUtils.snackBar({message:'Logout Successfully'})
+    AsyncStorage.clear();
+    commonUtils.snackBar({ message: "Logout Successfully" });
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
@@ -24,6 +24,10 @@ const Profile = (props) => {
       })
     );
   };
+  const [name, setName] = useState(props.userData.name);
+  const [address, setAddress] = useState(props.userData.address);
+
+  // let {name,phoneNo,address} = props.userData;
 
   useEffect(() => {
     // props.userInfo();
@@ -47,19 +51,22 @@ const Profile = (props) => {
             label="Name"
             border_radius={10}
             mt={10}
-            value={props.userData.name}
+            value={name}
+            onChangeText={setName}
           />
           <InputText
             label="Address"
             border_radius={10}
             mt={10}
-            value={props.userData.address}
+            value={address}
+            onChangeText={setAddress}
           />
           <InputText
             label="Mobile"
             border_radius={10}
             mt={10}
             value={props.userData.phoneNo.toString()}
+            editable={false}
           />
           <View style={{ alignItems: "center" }}>
             <Button btn_xl title="Update" border_radius={10} mt={10} />

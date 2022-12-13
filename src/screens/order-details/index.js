@@ -4,15 +4,20 @@ import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Label from "../../components/label";
-import userActions from "../../store/actions/user";
+import orderActions from "../../store/actions/order";
 import styles from "./style";
 import { responsiveWidth } from "../../utils/themeUtils";
 import Swiper from "react-native-swiper";
 
 const OrderDetails = (props) => {
-  const { navigation, common, route, orderId, orderItems, status, date, time } =
-    props;
-  const id = route.params;
+  const { createdAt, medImage, medicines, orderId, orderStatus } =
+    props.route.params.orderData;
+  let DateValue = new Date(createdAt)
+    .toLocaleString(undefined, { timeZone: "Asia/Kolkata" })
+    .split(",");
+  const date = DateValue[0];
+  const time = DateValue[1];
+
   const LabelValue = ({ keys, value }) => {
     return (
       <View style={{ flexDirection: "row" }}>
@@ -53,6 +58,34 @@ const OrderDetails = (props) => {
     );
   };
 
+  const renderItem = ({ item }) => {
+    return (
+      <View
+        style={{
+          flex: 1,
+
+          borderWidth: 1,
+        }}
+      >
+        <Text>{item.text}</Text>
+        <Text>{item.quantity}</Text>
+        <Text>{item.stripe}</Text>
+      </View>
+    );
+  };
+
+  const sampleData = [
+    {
+      text: "Medicine 1",
+      quantity: "2",
+      stripe: false,
+    },
+    {
+      text: "Medicine 2",
+      quantity: "4",
+      stripe: true,
+    },
+  ];
   return (
     <View style={{ flex: 1, marginHorizontal: 10, marginTop: 10 }}>
       <View
@@ -71,9 +104,25 @@ const OrderDetails = (props) => {
         </View>
       </View>
       <LabelValue keys="Order Id" value={orderId} />
-      <LabelValue keys="Order Items" value={orderItems} />
       <LabelValue keys="Date" value={date} />
       <LabelValue keys="Time" value={time} />
+      <LabelValue keys="Order Items" value={"Medicines"} />
+
+      {medicines.length > 0 && (
+        <View
+          style={{ flex: 1, justifyContent: "center", marginHorizontal: 10 }}
+        >
+          <Label xlarge align={"center"} mt={10}>
+            Medicines
+          </Label>
+          <FlatList
+            data={medicines}
+            renderItem={renderItem}
+            numColumns={1}
+            keyExtractor={(item, index) => item.key}
+          />
+        </View>
+      )}
       <Label xlarge align={"center"} mt={10}>
         Image Uploaded
       </Label>
@@ -103,7 +152,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      userInfo: userActions.userInfoServiceAction,
+      orderDetail: orderActions.OderHistroyAction,
     },
     dispatch
   );
