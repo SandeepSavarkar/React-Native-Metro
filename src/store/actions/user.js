@@ -10,37 +10,42 @@ const userInfoAction = (payload) => ({
 });
 
 const userLoginAction = (params) => async (dispatch) => {
-
   call({
     url: serviceEndpoints.LOGIN,
     method: serviceMethods.POST,
     params,
+    showMsg: true,
   }).then((res) => {
     if (res.success) {
       let result = res.data;
       AsyncStorage.setItem("token", res.data.token);
       delete result.token;
       AsyncStorage.setItem("user", JSON.stringify(result));
+      commonUtils.snackBar({
+        message: res.message,
+      });
       dispatch(userInfoAction(result));
-      commonUtils.navigate({route:Routes.Authenticated})
+      commonUtils.navigate({ route: Routes.Authenticated });
     }
   });
 };
 
 const userRegisterAction = (params) => async (dispatch) => {
+  debugger;
   call({
     url: serviceEndpoints.REGISTER,
     method: serviceMethods.POST,
     params,
+    showMsg: true,
   }).then((res) => {
     if (res.success) {
       let result = res.data;
       AsyncStorage.setItem("token", res.data.token);
       delete result.token;
       dispatch(userInfoAction(result));
-      
+      debugger;
       AsyncStorage.setItem("user", JSON.stringify(result));
-      commonUtils.navigate({route:Routes.Authenticated})
+      commonUtils.navigate({ route: Routes.Authenticated });
     }
   });
 };
@@ -59,5 +64,5 @@ export default {
   userLoginAction,
   serverCheck,
   userRegisterAction,
-  userInfoAction
+  userInfoAction,
 };

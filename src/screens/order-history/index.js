@@ -19,9 +19,9 @@ const OrderHistory = (props) => {
       id,
     });
   };
-  // useEffect(()=>{
-  //   props.orderHistroyInfo();
-  // },[])
+  useEffect(()=>{
+    props.orderHistroyInfo({check:true});
+  })
 
   const renderItem = ({ item }) => (
     <Card item={item} key={item.id} onPress={handleView} />

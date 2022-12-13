@@ -26,13 +26,13 @@ const addOrderAction = (params) => async (dispatch) => {
       // };
       // debugger
       // dispatch(orderInfoAction(result));
-      
-      commonUtils.navigate({ route: Routes.OrderHistoryStack});
+
+      commonUtils.navigate({ route: Routes.OrderHistoryStack });
     }
   });
 };
 
-const OderHistroyAction = async (dispatch) => {
+const OderHistroyAction = (params) => async (dispatch) => {
   debugger;
   call({
     url: serviceEndpoints.ORDER_HISTROY,
@@ -40,23 +40,20 @@ const OderHistroyAction = async (dispatch) => {
   }).then((res) => {
     debugger;
     if (res.success) {
-      // let { orderId, orderStatus, medImage, medicines, createdAt } = res.data;
-      // let result = {
-      //   orderId,
-      //   orderStatus,
-      //   medImage,
-      //   medicines,
-      //    createdAt,
-      // };
-      // debugger
-      // dispatch(orderInfoAction(res.data));
-      
-      
+      let { orderId, orderStatus, medImage, medicines, createdAt } = res.data;
+      let result = {
+        orderId,
+        orderStatus,
+        medImage,
+        medicines,
+        createdAt,
+      };
+      dispatch(orderInfoAction(res.data));
     }
   });
 };
 
 export default {
   addOrderAction,
-  OderHistroyAction
+  OderHistroyAction,
 };

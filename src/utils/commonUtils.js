@@ -15,7 +15,7 @@ const snackBar = ({ message, success = true }) => {
       text: message,
       duration: Snackbar.LENGTH_SHORT,
       textColor: Color.WHITE,
-      backgroundColor: success ? Color.PRIMARY : Color.ERROR,
+      backgroundColor: success ? Color.SUCCESS : Color.ERROR,
     });
   }, 200);
 };
