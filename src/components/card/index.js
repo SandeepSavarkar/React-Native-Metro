@@ -18,7 +18,6 @@ const LabelValue = ({ keys, value }) => {
 
 const Card = (props) => {
   const { orderId, status, orderItems, date, time } = props.item;
-
   return (
     <View style={{ marginVertical: 10 }}>
       <TouchableOpacity

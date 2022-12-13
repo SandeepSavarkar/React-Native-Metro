@@ -8,6 +8,7 @@ import userActions from "../../store/actions/user";
 import styles from "./style";
 import { responsiveWidth } from "../../utils/themeUtils";
 import Swiper from "react-native-swiper";
+import DropdownComponent from "./Dropdown";
 
 const OrderDetails = (props) => {
   const { navigation, common, route, orderId, orderItems, status, date, time } =
@@ -57,6 +58,17 @@ const OrderDetails = (props) => {
     <View style={{ flex: 1, marginHorizontal: 10, marginTop: 10 }}>
       <View
         style={{
+          flexDirection: "row",
+          alignItems: "center",
+          display: "flex",
+          width: "100%",
+        }}
+      >
+        <Label xlarge>Change Status</Label>
+        <DropdownComponent />
+      </View>
+      <View
+        style={{
           width: "100%",
           flexDirection: "row",
           alignItems: "center",
@@ -64,7 +76,7 @@ const OrderDetails = (props) => {
         }}
       >
         <View style={{ width: "40%" }}>
-          <Label xlarge>Status</Label>
+          <Label xlarge>Current Status</Label>
         </View>
         <View style={{ width: "60%", alignItems: "center" }}>
           <StatusBadge status="Pending" />

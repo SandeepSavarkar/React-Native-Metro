@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Profile = (props) => {
   const { navigation } = props;
   const handleLogout = () => {
-    AsyncStorage.clear()
+    AsyncStorage.clear();
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
@@ -57,7 +57,7 @@ const Profile = (props) => {
             label="Mobile"
             border_radius={10}
             mt={10}
-            value={props.userData.phoneNo.toString()}
+            // value={props.userData.phoneNo.toString()}
           />
           <View style={{ alignItems: "center" }}>
             <Button btn_xl title="Update" border_radius={10} mt={10} />
