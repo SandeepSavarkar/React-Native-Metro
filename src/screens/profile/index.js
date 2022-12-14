@@ -4,25 +4,17 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Label from "../../components/label";
-import Routes from "../../router/router";
 import userActions from "../../store/actions/user";
 import { styles } from "./style";
 import Button from "../../components/button";
 import InputText from "../../components/InputText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import commonUtils from "../../utils/commonUtils";
 
 const Profile = (props) => {
-  const { navigation } = props;
-  const handleLogout = () => {
-    AsyncStorage.clear()
-    commonUtils.snackBar({message:'Logout Successfully'})
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: Routes.notAuthenticated }],
-      })
-    );
+  const { navigation, userLogout } = props;
+  const handleLogout = async () => {
+    let fcmToken = await AsyncStorage.getItem("fcmToken");
+    userLogout({ fcmToken });
   };
 
   useEffect(() => {
@@ -86,7 +78,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      userInfo: userActions.userInfoServiceAction,
+      userLogout: userActions.userLogoutAction,
     },
     dispatch
   );

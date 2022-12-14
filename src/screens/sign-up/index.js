@@ -9,17 +9,20 @@ import * as Yup from "yup";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import userActions from "../../store/actions/user";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignUp = ({ navigation,userRegister }) => {
   const handleAlreadyRegister = () => navigation.navigate(Routes.Login);
 
   const handleRegistertion = async (values) => {
+    let fcmToken = await AsyncStorage.getItem("fcmToken");
     let params = {
       name: values.name,
       password: values.password,
       phoneNo: values.phoneNo,
       address: values.address,
       isAdmin: false,
+      fcmToken
     };
     console.log(params, "paramsparamsparams");
     userRegister(params);

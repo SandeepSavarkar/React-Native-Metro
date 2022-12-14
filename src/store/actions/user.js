@@ -50,6 +50,22 @@ const userRegisterAction = (params) => async (dispatch) => {
   });
 };
 
+const userLogoutAction = (params) => async (dispatch) => {
+  debugger;
+  call({
+    url: serviceEndpoints.LOGOUT,
+    method: serviceMethods.POST,
+    params,
+    showMsg: true,
+  }).then((res) => {
+    if (res.success) {
+      AsyncStorage.clear();
+      commonUtils.snackBar({ message: res.message });
+      commonUtils.navigate({ route: Routes.notAuthenticated,reset:true });
+    }
+  });
+};
+
 const serverCheck = () => async (dispatch) => {
   call({
     url: "check",
@@ -65,4 +81,5 @@ export default {
   serverCheck,
   userRegisterAction,
   userInfoAction,
+  userLogoutAction
 };
