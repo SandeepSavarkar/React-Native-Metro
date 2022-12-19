@@ -19,6 +19,7 @@ import { getAuthInitialValues } from "../../utils/form-helper/initial-values";
 import { user } from "../../store/actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
+import { requestUserPermission } from "../../utils/notificationHelper";
 const Login = ({ navigation, userInfo }) => {
   const dispatch = useDispatch();
   const handleLogin = () => {
@@ -47,7 +48,7 @@ const Login = ({ navigation, userInfo }) => {
       .max(30)
       .required("Required"),
   });
-
+  requestUserPermission();
   return (
     <View
       style={{

@@ -6,7 +6,6 @@ import Routes from "../../router/router";
 import commonUtils from "../../utils/commonUtils";
 import UserAction from "../../store/actions/user";
 import { useDispatch } from "react-redux";
-import { requestUserPermission } from "../../utils/notificationHelper";
 import messaging from "@react-native-firebase/messaging";
 
 const SplashScreen = (props) => {
@@ -26,7 +25,7 @@ const SplashScreen = (props) => {
       }
     });
   };
-  requestUserPermission();
+
   useEffect(() => {
     setTimeout(() => {
       getTokenData();

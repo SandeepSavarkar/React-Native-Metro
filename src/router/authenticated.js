@@ -81,7 +81,7 @@ const OrderHistoryAdminStack = () => {
   );
 };
 const BottomTabNavigation = () => {
-  let isAdmin = 1;
+  let isAdmin = false;
   return (
     <Tab.Navigator
       screenOptions={{
