@@ -40,14 +40,6 @@ const OderHistroyAction = (params) => async (dispatch) => {
   }).then((res) => {
     debugger;
     if (res.success) {
-      let { orderId, orderStatus, medImage, medicines, createdAt } = res.data;
-      let result = {
-        orderId,
-        orderStatus,
-        medImage,
-        medicines,
-        createdAt,
-      };
       dispatch(orderInfoAction(res.data));
     }
   });

@@ -17,16 +17,22 @@ const LabelValue = ({ keys, value }) => {
 };
 
 const Card = (props) => {
-  const { orderId, status, orderItems, date, time } = props.item;
+  const { orderId, orderStatus, orderItems, createdAt } = props.item;
+  let DateValue = new Date(createdAt)
+    .toLocaleString(undefined, { timeZone: "Asia/Kolkata" })
+    .split(",");
+  const date = DateValue[0];
+  const time = DateValue[1];
+
   return (
     <View style={{ marginVertical: 10 }}>
       <TouchableOpacity
         style={[styles.card, props.style]}
-        onPress={props.onPress(props.item.id)}
+        onPress={props.onPress(props.item)}
       >
         <View style={styles.fdr}>
           <LabelValue keys="Order Id" value={orderId} />
-          {status ? (
+          {orderStatus ? (
             <View
               style={{
                 backgroundColor: "#90EE90",
@@ -34,7 +40,7 @@ const Card = (props) => {
                 paddingHorizontal: 5,
               }}
             >
-              <Label color="green">{status}</Label>
+              <Label color="green">{orderStatus}</Label>
             </View>
           ) : null}
         </View>
