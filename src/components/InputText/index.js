@@ -100,6 +100,7 @@ const InputText = (props) => {
           value={props.value}
           maxLength={props.maxLength}
           keyboardType={props.keyboardType}
+          editable={props.editable}
           {...props}
         />
         {props.password ? (
