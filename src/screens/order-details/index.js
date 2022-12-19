@@ -13,11 +13,12 @@ import DropdownComponent from "./Dropdown";
 const OrderDetails = (props) => {
   const { createdAt, medImage, medicines, orderId, orderStatus } =
     props.route.params.orderData;
-  let DateValue = new Date(createdAt)
-    .toLocaleString(undefined, { timeZone: "Asia/Kolkata" })
-    .split(",");
-  const date = DateValue[0];
-  const time = DateValue[1];
+  useEffect(() => {
+    props.orderDetail({ orderId }, (data) => {
+      debugger;
+      console.log(data, "data");
+    });
+  }, []);
 
   const LabelValue = ({ keys, value }) => {
     return (
@@ -87,6 +88,14 @@ const OrderDetails = (props) => {
       stripe: true,
     },
   ];
+  let DateValue = new Date(createdAt)
+    .toLocaleString(undefined, { timeZone: "Asia/Kolkata" })
+    .split(",");
+
+  const date = DateValue[0];
+  const time = DateValue[1];
+
+
   return (
     <View style={{ flex: 1, marginHorizontal: 10, marginTop: 10 }}>
       <View
@@ -164,7 +173,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      orderDetail: orderActions.OderHistroyAction,
+      orderDetail: orderActions.SingleOrderDetail,
     },
     dispatch
   );

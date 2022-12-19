@@ -17,13 +17,7 @@ const OrderHistory = (props) => {
   const { navigation, common } = props;
 
   const handleView = (orderData) => () => {
-    let DateValue = new Date(orderData.createdAt)
-      .toLocaleString(undefined, { timeZone: "Asia/Kolkata" })
-      .split(",");
-
     
-    orderData.date = DateValue[0];
-    orderData.time = DateValue[1];
     commonUtils.navigate({ route: Routes.OrderDetails, param: { orderData } });
     // navigation.navigate(Routes.OrderDetails, {
     //   id,

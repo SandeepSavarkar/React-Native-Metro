@@ -5,7 +5,8 @@ const serviceEndpoints = {
   CHANGE_PASSWORD :'changepassword',
   ADD_ORDER:'addOrder',
   ORDER_HISTROY:'getOrderData',
-  LOGOUT:'logout'
+  LOGOUT:'logout',
+  ORFER_DETAIL:'getOrderDetail'
 };
 
 const serviceMethods = {

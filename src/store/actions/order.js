@@ -44,8 +44,23 @@ const OderHistroyAction = (params) => async (dispatch) => {
     }
   });
 };
+const SingleOrderDetail = (params, cb) => async (dispatch) => {
+  debugger;
+  call({
+    url: serviceEndpoints.ORFER_DETAIL,
+    method: serviceMethods.POST,
+    params,
+  }).then((res) => {
+    debugger;
+    if (res.success) {
+      cb(res.data)
+      // dispatch(orderInfoAction(res.data));
+    }
+  });
+};
 
 export default {
   addOrderAction,
   OderHistroyAction,
+  SingleOrderDetail,
 };
