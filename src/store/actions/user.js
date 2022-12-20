@@ -31,7 +31,6 @@ const userLoginAction = (params) => async (dispatch) => {
 };
 
 const userRegisterAction = (params) => async (dispatch) => {
-  debugger;
   call({
     url: serviceEndpoints.REGISTER,
     method: serviceMethods.POST,
@@ -43,7 +42,7 @@ const userRegisterAction = (params) => async (dispatch) => {
       AsyncStorage.setItem("token", res.data.token);
       delete result.token;
       dispatch(userInfoAction(result));
-      debugger;
+
       AsyncStorage.setItem("user", JSON.stringify(result));
       commonUtils.navigate({ route: Routes.Authenticated });
     }
@@ -51,7 +50,6 @@ const userRegisterAction = (params) => async (dispatch) => {
 };
 
 const userLogoutAction = (params) => async (dispatch) => {
-  debugger;
   call({
     url: serviceEndpoints.LOGOUT,
     method: serviceMethods.POST,
@@ -61,7 +59,7 @@ const userLogoutAction = (params) => async (dispatch) => {
     if (res.success) {
       AsyncStorage.clear();
       commonUtils.snackBar({ message: res.message });
-      commonUtils.navigate({ route: Routes.notAuthenticated,reset:true });
+      commonUtils.navigate({ route: Routes.notAuthenticated, reset: true });
     }
   });
 };
@@ -81,5 +79,5 @@ export default {
   serverCheck,
   userRegisterAction,
   userInfoAction,
-  userLogoutAction
+  userLogoutAction,
 };

@@ -6,7 +6,9 @@ const serviceEndpoints = {
   ADD_ORDER:'addOrder',
   ORDER_HISTROY:'getOrderData',
   LOGOUT:'logout',
-  ORFER_DETAIL:'getOrderDetail'
+  ORDER_DETAIL:'getOrderDetail',
+  UPDATE_ORDER :'orderUpdate'
+
 };
 
 const serviceMethods = {

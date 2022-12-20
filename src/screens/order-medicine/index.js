@@ -27,11 +27,10 @@ const OrderMedicine = (props) => {
   const [isImageUpload, setIsImageUpload] = useState(false);
 
   const handleSubmit = async (values) => {
-    let params = values;
-    params.orderStatus = true;
+    
 
     var formData = new FormData();
-    formData.append("orderStatus", true);
+    formData.append("orderStatus", "Pending");
     formData.append("medicines", JSON.stringify(values.medicines));
     await values.images.map((item) => {
       formData.append(`images`, {
