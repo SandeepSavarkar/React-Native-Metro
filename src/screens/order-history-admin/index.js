@@ -10,12 +10,13 @@ import { FieldArray, Formik } from "formik";
 import Button from "../../components/button";
 import InputText from "../../components/InputText";
 import Card from "../../components/card";
+import commonUtils from "../../utils/commonUtils";
 
 const OrderHistoryAdmin = (props) => {
   const { navigation, common } = props;
 
   const handleView = (id) => () => {
-    navigation.navigate(Routes.OrderDetails, {
+    commonUtils.navigate(Routes.OrderDetails, {
       id,
     });
   };
