@@ -7,7 +7,8 @@ const serviceEndpoints = {
   ORDER_HISTROY:'getOrderData',
   LOGOUT:'logout',
   ORDER_DETAIL:'getOrderDetail',
-  UPDATE_ORDER :'orderUpdate'
+  UPDATE_ORDER :'orderUpdate',
+  PROFILE_UPDATE:"updateprofile"
 
 };
 

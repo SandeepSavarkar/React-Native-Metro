@@ -4,9 +4,17 @@ import userTypes from "../../constants/userTypes";
 import call from "../services";
 import commonUtils from "../../utils/commonUtils";
 import Routes from "../../router/router";
+import actionTypes from "../../constants/actionTypes";
 const userInfoAction = (payload) => ({
   type: userTypes.USERINFO,
   payload,
+});
+
+const loaderStartAction = () => ({
+  type: actionTypes.LOADER_START,
+});
+const loaderStopAction = () => ({
+  type: actionTypes.LOADER_STOP,
 });
 
 const userLoginAction = (params) => async (dispatch) => {
@@ -42,7 +50,6 @@ const userRegisterAction = (params) => async (dispatch) => {
       AsyncStorage.setItem("token", res.data.token);
       delete result.token;
       dispatch(userInfoAction(result));
-
       AsyncStorage.setItem("user", JSON.stringify(result));
       commonUtils.navigate({ route: Routes.Authenticated });
     }
@@ -64,6 +71,24 @@ const userLogoutAction = (params) => async (dispatch) => {
   });
 };
 
+const userUpdateAction = (params, cb) => async (dispatch) => {
+  dispatch(loaderStartAction());
+  call({
+    url: serviceEndpoints.PROFILE_UPDATE,
+    method: serviceMethods.POST,
+    params,
+    showMsg: true,
+  }).then(async(res) => {
+    dispatch(loaderStopAction());
+    if (res.success) {
+      let result = res.data;
+      await dispatch(userInfoAction(result));
+      AsyncStorage.setItem("user", JSON.stringify(result));
+      cb(result);
+    }
+  });
+};
+
 const serverCheck = () => async (dispatch) => {
   call({
     url: "check",
@@ -80,4 +105,5 @@ export default {
   userRegisterAction,
   userInfoAction,
   userLogoutAction,
+  userUpdateAction,
 };

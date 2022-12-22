@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { CommonActions } from "@react-navigation/native";
+import React, { useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -11,19 +11,37 @@ import InputText from "../../components/InputText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = (props) => {
-  const { navigation, userLogout } = props;
+  const { userLogout, userUpdate } = props;
+
   const handleLogout = async () => {
     let fcmToken = await AsyncStorage.getItem("fcmToken");
     userLogout({ fcmToken });
   };
-  const [name, setName] = useState(props.userData.name);
-  const [address, setAddress] = useState(props.userData.address);
+  const handleUpdate = () => {
+    let param = {
+      name,
+      address,
+    };
+
+    userUpdate(param, (data) => {
+      debugger;
+      setName(data.name);
+      setAddress(data.address);
+    });
+  };
+  const [name, setName] = useState();
+  const [address, setAddress] = useState();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      debugger;
+      setAddress(props.userData.address);
+      setName(props.userData.name);
+    }, [])
+  );
 
   // let {name,phoneNo,address} = props.userData;
 
-  useEffect(() => {
-    // props.userInfo();
-  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.imgContainer}>
@@ -61,7 +79,13 @@ const Profile = (props) => {
             editable={false}
           />
           <View style={{ alignItems: "center" }}>
-            <Button btn_xl title="Update" border_radius={10} mt={10} />
+            <Button
+              btn_xl
+              title="Update"
+              border_radius={10}
+              mt={10}
+              onPress={handleUpdate}
+            />
           </View>
           <View style={{ alignItems: "center" }}>
             <Button
@@ -86,6 +110,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       userLogout: userActions.userLogoutAction,
+      userUpdate: userActions.userUpdateAction,
     },
     dispatch
   );

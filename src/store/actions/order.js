@@ -3,10 +3,18 @@ import userTypes from "../../constants/userTypes";
 import call from "../services";
 import commonUtils from "../../utils/commonUtils";
 import Routes from "../../router/router";
+import actionTypes from "../../constants/actionTypes";
 
 const orderInfoAction = (payload) => ({ type: userTypes.ORDERINFO, payload });
+const loaderStartAction = () => ({
+  type: actionTypes.LOADER_START,
+});
+const loaderStopAction = () => ({
+  type: actionTypes.LOADER_STOP,
+});
 
 const addOrderAction = (params) => async (dispatch) => {
+  dispatch(loaderStartAction());
   call({
     url: serviceEndpoints.ADD_ORDER,
     method: serviceMethods.POST,
@@ -14,39 +22,36 @@ const addOrderAction = (params) => async (dispatch) => {
     contentType: true,
   }).then((res) => {
     if (res.success) {
-      // let { orderId, orderStatus, medImage, medicines, updatedAt } = res.data;
-      // let result = {
-      //   orderId,
-      //   orderStatus,
-      //   medImage,
-      //   medicines,
-      //   orderTime: updatedAt,
-      // };
-      // debugger
-      // dispatch(orderInfoAction(result));
-
       commonUtils.navigate({ route: Routes.OrderHistoryStack });
     }
   });
 };
 
 const OderHistroyAction = (params) => async (dispatch) => {
+  dispatch(loaderStartAction());
+
   call({
     url: serviceEndpoints.ORDER_HISTROY,
     method: serviceMethods.GET,
   }).then((res) => {
+    dispatch(loaderStopAction());
+
     if (res.success) {
       dispatch(orderInfoAction(res.data));
     }
   });
 };
-const SingleOrderDetail = (params, cb) => async (dispatch) => {
+const SingleOrderDetail = (params,cb) => async (dispatch) => {
+  dispatch(loaderStartAction());
+
   call({
     url: serviceEndpoints.ORDER_DETAIL,
     method: serviceMethods.POST,
     params,
   }).then((res) => {
     debugger;
+    dispatch(loaderStopAction());
+
     if (res.success) {
       cb(res.data);
       // dispatch(orderInfoAction(res.data));
@@ -57,11 +62,15 @@ const SingleOrderDetail = (params, cb) => async (dispatch) => {
 };
 
 const UpdateOrder = (params, cb) => async (dispatch) => {
+  dispatch(loaderStartAction());
+
   call({
     url: serviceEndpoints.UPDATE_ORDER,
     method: serviceMethods.POST,
     params,
   }).then((res) => {
+    dispatch(loaderStopAction());
+
     debugger;
     if (res.success) {
       cb(res.success);
