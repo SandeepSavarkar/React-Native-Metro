@@ -20,9 +20,9 @@ const OrderHistoryAdmin = (props) => {
       id,
     });
   };
-  // useEffect(()=>{
-  //   props.orderHistroyInfo();
-  // },[])
+  useEffect(()=>{
+    props.orderHistroyInfo();
+  },[])
 
   const renderItem = ({ item }) => (
     <Card item={item} key={item.id} onPress={handleView} />

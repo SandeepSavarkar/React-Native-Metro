@@ -9,6 +9,8 @@ import styles from "./style";
 import Card from "../../components/card";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import Routes from "../../router/router";
+import commonUtils from "../../utils/commonUtils";
 
 const CustomerDetail = ({ route }) => {
   const { params } = route;
@@ -34,10 +36,10 @@ const CustomerDetail = ({ route }) => {
     );
   };
 
-  const handleView = (id) => () => {
-    console.log("Changes", id);
+  const handleView = (orderData) => () => {
+    commonUtils.navigate({ route: Routes.OrderDetails, param: { orderData } });
   };
-  
+
   const renderItem = ({ item }) => (
     <Card item={item} key={item.userId} onPress={handleView} />
   );

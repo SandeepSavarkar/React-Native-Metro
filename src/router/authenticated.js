@@ -110,6 +110,11 @@ const CustomerStack = (props) => {
           title: "Customer Details",
         }}
       />
+      <Stack.Screen
+        name={Routes.OrderDetails}
+        component={orderDetails}
+        options={{ title: "Order Details" }}
+      />
     </Stack.Navigator>
   );
 };
