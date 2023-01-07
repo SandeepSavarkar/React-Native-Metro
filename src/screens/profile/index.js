@@ -24,17 +24,15 @@ const Profile = (props) => {
     };
 
     userUpdate(param, (data) => {
-      debugger;
       setName(data.name);
       setAddress(data.address);
     });
   };
-  const [name, setName] = useState();
-  const [address, setAddress] = useState();
+  const [name, setName] = useState(props.userData.name);
+  const [address, setAddress] = useState(props.userData.address);
 
   useFocusEffect(
     React.useCallback(() => {
-      debugger;
       setAddress(props.userData.address);
       setName(props.userData.name);
     }, [])

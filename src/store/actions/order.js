@@ -41,7 +41,7 @@ const OderHistroyAction = (params) => async (dispatch) => {
     }
   });
 };
-const SingleOrderDetail = (params,cb) => async (dispatch) => {
+const SingleOrderDetail = (params, cb) => async (dispatch) => {
   dispatch(loaderStartAction());
 
   call({
@@ -49,7 +49,6 @@ const SingleOrderDetail = (params,cb) => async (dispatch) => {
     method: serviceMethods.POST,
     params,
   }).then((res) => {
-    debugger;
     dispatch(loaderStopAction());
 
     if (res.success) {
@@ -71,7 +70,6 @@ const UpdateOrder = (params, cb) => async (dispatch) => {
   }).then((res) => {
     dispatch(loaderStopAction());
 
-    debugger;
     if (res.success) {
       cb(res.success);
       commonUtils.snackBar({ message: res.message });

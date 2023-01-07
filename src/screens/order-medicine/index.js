@@ -21,27 +21,58 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Button from "../../components/button";
 import { styles } from "./style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { firebase } from "@react-native-firebase/auth";
+import { utils } from "@react-native-firebase/app";
+import storage from "@react-native-firebase/storage";
 
 const OrderMedicine = (props) => {
   const { navigation, common } = props;
   const [isImageUpload, setIsImageUpload] = useState(false);
 
-  const handleSubmit = async (values) => {
-    
-
-    var formData = new FormData();
-    formData.append("orderStatus", "Pending");
-    formData.append("medicines", JSON.stringify(values.medicines));
-    await values.images.map((item) => {
-      formData.append(`images`, {
-        name: "Images.jpeg",
-        uri: item.path,
-        type: item.mime,
-      });
+  const ImageUpload = (imageData) => {
+    debugger;
+    imageData.map((imgdata) => {
+      debugger;
+      const uri = imgdata.path;
+      debugger;
+      const filename = uri.substring(uri.lastIndexOf("/") + 1);
+      const uploadUri =
+        Platform.OS === "ios" ? uri.replace("file://", "") : imgdata.path;
+      debugger;
+      firebase
+        .storage()
+        .ref(imageName)
+        .putFile(uploadUri)
+        .then((snapshot) => {
+          console.log(snapshot, "snapshotsnapshotsnapshot");
+          debugger;
+          //You can check the image is now uploaded in the storage bucket
+          console.log(`${imageName} has been successfully uploaded.`);
+        })
+        .catch((e) => console.log("uploading image error => ", e));
     });
+  };
 
-    props.orderPlaced(formData);
-    console.log("values: ", values);
+  const handleSubmit = async (values) => {
+    debugger;
+    ImageUpload(values.images);
+    debugger;
+
+    console.log(values.images, "values.imagesvalues.imagesvalues.images");
+    debugger;
+    // var formData = new FormData();
+    // formData.append("orderStatus", "Pending");
+    // formData.append("medicines", JSON.stringify(values.medicines));
+    // await values.images.map((item) => {
+    //   formData.append(`images`, {
+    //     name: "Images.jpeg",
+    //     uri: item.path,
+    //     type: item.mime,
+    //   });
+    // });
+
+    // props.orderPlaced(formData);
+    // console.log("values: ", values);
   };
 
   useEffect(() => {
@@ -64,6 +95,34 @@ const OrderMedicine = (props) => {
     })
       .then((image) => {
         console.log("Camera image: ", image);
+        debugger;
+        const uri = image.path;
+        debugger;
+        const filename = uri.substring(uri.lastIndexOf("/") + 1);
+        debugger;
+        const reference = storage().ref(filename);
+        debugger;
+        const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/${filename}`;
+        debugger;
+        const task = reference.putFile(image.path);
+        debugger;
+
+        task.on("state_changed", (taskSnapshot) => {
+          console.log(
+            `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
+          );
+        });
+
+        task.then(async (data) => {
+          console.log("Image uploaded to the bucket!", data);
+
+          const url = await storage().ref(filename).getDownloadURL();
+          debugger;
+        });
+        task.catch((error) => {
+          console.log(error, "Error123@");
+        });
+        debugger;
         values.images.push(image);
       })
       .catch((e) => alert(e));
@@ -78,6 +137,8 @@ const OrderMedicine = (props) => {
       forceJpg: true,
     })
       .then((images) => {
+        console.log("Multiple image: ", images);
+        debugger;
         setFieldValue("images", [...values.images, ...images]);
       })
       .catch((e) => alert(e));
@@ -158,7 +219,7 @@ const OrderMedicine = (props) => {
                           position: "absolute",
                           left: 40,
                           top: -20,
-                          zIndex: 1
+                          zIndex: 1,
                         }}
                         onPress={() => {
                           values.images.splice(index, 1);

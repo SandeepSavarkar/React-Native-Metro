@@ -25,7 +25,7 @@ const OrderDetails = (props) => {
     React.useCallback(() => {
       // dispatch(orderActions.OderHistroyAction())
       props.orderDetail({ orderId }, (data) => {
-        debugger;
+        
         if (data) {
           setOrderData(() => ({
             medicines: data.medicines,
@@ -110,7 +110,7 @@ const OrderDetails = (props) => {
   const UpdateStatus = (value) => {
     setDropdown(true);
     props.updateOrder({ orderId, orderStatus: value }, (data) => {
-      debugger;
+      
       console.log(data,'datadatadata');
       if (data) {
         setDropdown(false);
