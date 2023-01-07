@@ -1,37 +1,45 @@
-import { useEffect, useState } from "react";
-import { CommonActions } from "@react-navigation/native";
+import React, { useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Label from "../../components/label";
-import Routes from "../../router/router";
 import userActions from "../../store/actions/user";
 import { styles } from "./style";
 import Button from "../../components/button";
 import InputText from "../../components/InputText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import commonUtils from "../../utils/commonUtils";
 
 const Profile = (props) => {
-  const { navigation } = props;
-  const handleLogout = () => {
-    AsyncStorage.clear();
-    commonUtils.snackBar({ message: "Logout Successfully" });
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: Routes.notAuthenticated }],
-      })
-    );
+  const { userLogout, userUpdate } = props;
+
+  const handleLogout = async () => {
+    let fcmToken = await AsyncStorage.getItem("fcmToken");
+    userLogout({ fcmToken });
+  };
+  const handleUpdate = () => {
+    let param = {
+      name,
+      address,
+    };
+
+    userUpdate(param, (data) => {
+      setName(data.name);
+      setAddress(data.address);
+    });
   };
   const [name, setName] = useState(props.userData.name);
   const [address, setAddress] = useState(props.userData.address);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setAddress(props.userData.address);
+      setName(props.userData.name);
+    }, [])
+  );
+
   // let {name,phoneNo,address} = props.userData;
 
-  useEffect(() => {
-    // props.userInfo();
-  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.imgContainer}>
@@ -69,7 +77,13 @@ const Profile = (props) => {
             editable={false}
           />
           <View style={{ alignItems: "center" }}>
-            <Button btn_xl title="Update" border_radius={10} mt={10} />
+            <Button
+              btn_xl
+              title="Update"
+              border_radius={10}
+              mt={10}
+              onPress={handleUpdate}
+            />
           </View>
           <View style={{ alignItems: "center" }}>
             <Button
@@ -93,7 +107,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      userInfo: userActions.userInfoServiceAction,
+      userLogout: userActions.userLogoutAction,
+      userUpdate: userActions.userUpdateAction,
     },
     dispatch
   );

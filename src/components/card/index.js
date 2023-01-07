@@ -18,9 +18,10 @@ const LabelValue = ({ keys, value }) => {
 
 const Card = (props) => {
   const { orderId, orderStatus, orderItems, createdAt } = props.item;
-  let DateValue = new Date(createdAt)
+  const DateValue = new Date(createdAt)
     .toLocaleString(undefined, { timeZone: "Asia/Kolkata" })
     .split(",");
+
   const date = DateValue[0];
   const time = DateValue[1];
 

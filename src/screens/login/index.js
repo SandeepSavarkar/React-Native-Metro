@@ -1,6 +1,13 @@
 import { CommonActions } from "@react-navigation/native";
 import { Formik } from "formik";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Alert,
+} from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as Yup from "yup";
@@ -10,11 +17,12 @@ import Label from "../../components/label";
 import Routes from "../../router/router";
 import { getAuthInitialValues } from "../../utils/form-helper/initial-values";
 import { user } from "../../store/actions";
-import { useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { requestUserPermission } from "../../utils/notificationHelper";
 
 const Login = ({ navigation, userInfo }) => {
-
-  const users = useSelector(state => state?.user)
+  const dispatch = useDispatch();
   const handleLogin = () => {
     navigation.navigate(Routes.SignUp);
   };
@@ -27,10 +35,9 @@ const Login = ({ navigation, userInfo }) => {
     );
   };
 
-  const handleSubmit = (values) => {
-    debugger;
-    userInfo(values);
-    redirectToHome()
+  const handleSubmit = async (values) => {
+    values.fcmToken = await AsyncStorage.getItem("fcmToken");
+    dispatch(user.userLoginAction(values));
   };
 
   const LoginSchema = Yup.object().shape({
@@ -42,7 +49,7 @@ const Login = ({ navigation, userInfo }) => {
       .max(30)
       .required("Required"),
   });
-
+  requestUserPermission();
   return (
     <View
       style={{

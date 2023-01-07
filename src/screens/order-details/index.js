@@ -1,5 +1,5 @@
-import { useCallback, useEffect } from "react";
-import { CommonActions } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
+import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -11,13 +11,33 @@ import Swiper from "react-native-swiper";
 import DropdownComponent from "./Dropdown";
 
 const OrderDetails = (props) => {
-  const { createdAt, medImage, medicines, orderId, orderStatus } =
-    props.route.params.orderData;
-  let DateValue = new Date(createdAt)
-    .toLocaleString(undefined, { timeZone: "Asia/Kolkata" })
-    .split(",");
-  const date = DateValue[0];
-  const time = DateValue[1];
+  const [orderdata, setOrderData] = useState({
+    medicines: "",
+    date: "",
+    time: "",
+    medImage: [],
+    orderStatus: "",
+  });
+  const [dropdown, setDropdown] = useState(false);
+  const { orderId } = props.route.params.orderData;
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // dispatch(orderActions.OderHistroyAction())
+      props.orderDetail({ orderId }, (data) => {
+        
+        if (data) {
+          setOrderData(() => ({
+            medicines: data.medicines,
+            date: data.date,
+            time: data.time,
+            medImage: data.medImage,
+            orderStatus: data.orderStatus,
+          }));
+        }
+      });
+    }, [])
+  );
 
   const LabelValue = ({ keys, value }) => {
     return (
@@ -26,7 +46,7 @@ const OrderDetails = (props) => {
           {keys} :
         </Label>
         <Label xlarge bolder align={"center"} style={{ width: "60%" }}>
-          {value || "vsavasvds"}
+          {value }
         </Label>
       </View>
     );
@@ -35,7 +55,7 @@ const OrderDetails = (props) => {
   const StatusBadge = ({ status }) => {
     let color = "#FFA500",
       bgColor = "#FFD580";
-    if (status == "Completed") {
+    if (status == "Placed") {
       color = "green";
       bgColor = "#90EE90";
     }
@@ -87,6 +107,18 @@ const OrderDetails = (props) => {
       stripe: true,
     },
   ];
+  const UpdateStatus = (value) => {
+    setDropdown(true);
+    props.updateOrder({ orderId, orderStatus: value }, (data) => {
+      
+      console.log(data,'datadatadata');
+      if (data) {
+        setDropdown(false);
+        setOrderData({...orderdata,orderStatus:value})
+      }
+    });
+  };
+
   return (
     <View style={{ flex: 1, marginHorizontal: 10, marginTop: 10 }}>
       <View
@@ -98,7 +130,11 @@ const OrderDetails = (props) => {
         }}
       >
         <Label xlarge>Change Status</Label>
-        <DropdownComponent />
+        <DropdownComponent
+          status={orderdata.orderStatus}
+          handleChange={UpdateStatus}
+          disableDropDown={dropdown}
+        />
       </View>
       <View
         style={{
@@ -112,15 +148,15 @@ const OrderDetails = (props) => {
           <Label xlarge>Current Status</Label>
         </View>
         <View style={{ width: "60%", alignItems: "center" }}>
-          <StatusBadge status="Pending" />
+          <StatusBadge status={orderdata.orderStatus} />
         </View>
       </View>
       <LabelValue keys="Order Id" value={orderId} />
-      <LabelValue keys="Date" value={date} />
-      <LabelValue keys="Time" value={time} />
+      <LabelValue keys="Date" value={orderdata.date} />
+      <LabelValue keys="Time" value={orderdata.time} />
       <LabelValue keys="Order Items" value={"Medicines"} />
 
-      {medicines.length > 0 && (
+      {orderdata.medicines.length > 0 && (
         <View
           style={{ flex: 1, justifyContent: "center", marginHorizontal: 10 }}
         >
@@ -128,7 +164,7 @@ const OrderDetails = (props) => {
             Medicines
           </Label>
           <FlatList
-            data={medicines}
+            data={orderdata.medicines}
             renderItem={renderItem}
             numColumns={1}
             keyExtractor={(item, index) => item.key}
@@ -157,16 +193,13 @@ const OrderDetails = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state,
-});
-
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      orderDetail: orderActions.OderHistroyAction,
+      orderDetail: orderActions.SingleOrderDetail,
+      updateOrder: orderActions.UpdateOrder,
     },
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderDetails);
+export default connect(null, mapDispatchToProps)(OrderDetails);

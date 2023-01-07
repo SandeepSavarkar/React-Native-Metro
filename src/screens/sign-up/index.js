@@ -15,25 +15,45 @@ import * as Yup from "yup";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import userActions from "../../store/actions/user";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import auth from "@react-native-firebase/auth";
 import OtpInputs from "react-native-otp-inputs";
 import { Color } from "../../utils/color";
 
 const SignUp = ({ navigation, userRegister }) => {
   const handleAlreadyRegister = () => navigation.navigate(Routes.Login);
   const [isVerifyOTP, setIsVerifyOTP] = useState(false);
+  const [confirm, setConfirm] = useState(null);
+  const [code, setCode] = useState('');
 
   const handleRegistertion = async (values) => {
-    let params = {
-      name: values.name,
-      password: values.password,
-      phoneNo: values.phoneNo,
-      address: values.address,
-      isAdmin: false,
-    };
-    userRegister(params);
+    debugger
+    try {
+      debugger
+       await confirm.confirm(code);
+      debugger
+
+    } catch (error) {
+      debugger
+      console.log('Invalid code.');
+    }
+    // let fcmToken = await AsyncStorage.getItem("fcmToken");
+    // let params = {
+    //   name: values.name,
+    //   password: values.password,
+    //   phoneNo: values.phoneNo,
+    //   address: values.address,
+    //   isAdmin: false,
+    //   fcmToken,
+    // };
+    // userRegister(params);
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
+    const confirmation = await auth().signInWithPhoneNumber("+918487840846");
+    debugger
+    setConfirm(confirmation);
+
     setIsVerifyOTP(true);
   };
 
@@ -118,8 +138,8 @@ const SignUp = ({ navigation, userRegister }) => {
                 <>
                   <View style={styles.spacing}>
                     <OtpInputs
-                      handleChange={(value) => console.log("value", value)}
-                      numberOfInputs={4}
+                      handleChange={(value) => setCode(value)}
+                      numberOfInputs={6}
                       inputContainerStyles={[
                         styles.inputContainerStyles,
                         {

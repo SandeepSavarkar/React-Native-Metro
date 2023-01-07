@@ -42,16 +42,4 @@ const OrderHistory = (props) => {
   );
 };
 
-// const mapStateToProps = (state) => ({
-//   orderDetail: state.order,
-// });
-
-// const mapDispatchToProps = (dispatch) =>
-//   bindActionCreators(
-//     {
-//       orderHistroyInfo: orderActions.OderHistroyAction,
-//     },
-//     dispatch
-//   );
-
 export default OrderHistory;

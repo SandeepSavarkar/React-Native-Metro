@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
     case userTypes.ORDERINFO:
       return {
         ...state,
-        order:action.payload,
+        order: action.payload,
       };
     default:
       return state;

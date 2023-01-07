@@ -7,10 +7,15 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.LOADER:
+    case actionTypes.LOADER_START:
       return {
         ...state,
-        loading: action.payload,
+        loading: true,
+      };
+    case actionTypes.LOADER_STOP:
+      return {
+        ...state,
+        loading: false,
       };
     default:
       return state;

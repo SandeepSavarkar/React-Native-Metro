@@ -7,6 +7,11 @@ const serviceEndpoints = {
   ORDER_HISTROY: "getOrderData",
   CUSTOMER_LIST: "getCustomerList",
   CUSTOMER_DETAIL: "getCustomerDetail",
+  LOGOUT:'logout',
+  ORDER_DETAIL:'getOrderDetail',
+  UPDATE_ORDER :'orderUpdate',
+  PROFILE_UPDATE:"updateprofile"
+
 };
 
 const serviceMethods = {

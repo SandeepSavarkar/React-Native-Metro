@@ -9,7 +9,7 @@ const data = [
   { label: "Cancel", value: "Cancel" },
 ];
 
-const DropdownComponent = () => {
+const DropdownComponent = ({ status,handleChange ,disableDropDown}) => {
   const [value, setValue] = useState(null);
 
   const renderItem = (item) => {
@@ -41,14 +41,15 @@ const DropdownComponent = () => {
       valueField="value"
       placeholder="Select item"
       searchPlaceholder="Search..."
-      value={value}
+      value={status}
       onChange={(item) => {
-        setValue(item.value);
+        handleChange(item.value);
       }}
       renderLeftIcon={() => (
         <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
       )}
       renderItem={renderItem}
+      disable={disableDropDown}
     />
   );
 };
