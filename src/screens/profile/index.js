@@ -65,7 +65,7 @@ const Profile = (props) => {
             label="Mobile"
             border_radius={10}
             mt={10}
-            value={props.userData.phoneNo.toString()}
+            value={props.userData.phoneNo}
             editable={false}
           />
           <View style={{ alignItems: "center" }}>

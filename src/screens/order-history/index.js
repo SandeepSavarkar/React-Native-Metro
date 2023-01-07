@@ -13,35 +13,28 @@ import Card from "../../components/card";
 import commonUtils from "../../utils/commonUtils";
 
 const OrderHistory = (props) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { navigation, common } = props;
 
   const handleView = (orderData) => () => {
-    commonUtils.navigate({route:Routes.OrderDetails,param:{orderData}})
-    // navigation.navigate(Routes.OrderDetails, {
-    //   id,
-    // });
+    commonUtils.navigate({ route: Routes.OrderDetails, param: { orderData } });
   };
 
   useFocusEffect(
     React.useCallback(() => {
-      // dispatch(orderActions.OderHistroyAction())
-      props.orderHistroyInfo({check:true});
-
-      
+      orderActions.OderHistroyAction(dispatch);
     }, [])
   );
 
-  const counter = useSelector(state => state.order.order)
+  const orders = useSelector((state) => state.order.order);
 
-  console.log(counter,'orderDetailorderDetail');
-  const renderItem = ({item} ) => (
+  const renderItem = ({ item }) => (
     <Card item={item} key={item.orderId} onPress={handleView} />
   );
   return (
     <View style={{ flex: 1, justifyContent: "center", marginHorizontal: 10 }}>
       <FlatList
-        data={counter}
+        data={orders}
         renderItem={renderItem}
         keyExtractor={(item) => item.orderId}
       />
@@ -49,16 +42,16 @@ const OrderHistory = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  orderDetail: state.order,
-});
+// const mapStateToProps = (state) => ({
+//   orderDetail: state.order,
+// });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      orderHistroyInfo: orderActions.OderHistroyAction,
-    },
-    dispatch
-  );
+// const mapDispatchToProps = (dispatch) =>
+//   bindActionCreators(
+//     {
+//       orderHistroyInfo: orderActions.OderHistroyAction,
+//     },
+//     dispatch
+//   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderHistory);
+export default OrderHistory;

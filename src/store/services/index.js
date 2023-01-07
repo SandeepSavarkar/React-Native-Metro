@@ -49,7 +49,7 @@ const call = async ({
           if (auth && error.response?.status === 401) {
             // commonUtils.navigate({ route: routes.NON_AUTH, reset: true });
           }
-          if (error.message) {
+          if (!showMsg && error.message) {
             commonUtils.snackBar({
               message: error.message,
               success: false,

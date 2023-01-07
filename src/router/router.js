@@ -10,6 +10,7 @@ const Routes = {
   SignUp: "SignUp",
   ForgotPassword: "ForgotPassword",
   Profile: "Profile",
+  Customer: "Customer",
   Nearby: "Nearby",
   Search: "Search",
   Appointment: "Appointment",
@@ -24,6 +25,7 @@ const Routes = {
   OrderHistoryAdmin: "OrderHistoryAdmin",
   OrderMedicine: "OrderMedicine",
   OrderDetails: "OrderDetails",
+  CustomerDetail: "CustomerDetail",
   TryOn: "TryOn",
   FilterSalons: "FilterSalons",
 };

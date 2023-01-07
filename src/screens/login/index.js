@@ -10,8 +10,11 @@ import Label from "../../components/label";
 import Routes from "../../router/router";
 import { getAuthInitialValues } from "../../utils/form-helper/initial-values";
 import { user } from "../../store/actions";
+import { useSelector } from "react-redux";
 
 const Login = ({ navigation, userInfo }) => {
+
+  const users = useSelector(state => state?.user)
   const handleLogin = () => {
     navigation.navigate(Routes.SignUp);
   };
@@ -26,9 +29,8 @@ const Login = ({ navigation, userInfo }) => {
 
   const handleSubmit = (values) => {
     debugger;
-    console.log("values: ", values);
     userInfo(values);
-    // redirectToHome();
+    redirectToHome()
   };
 
   const LoginSchema = Yup.object().shape({

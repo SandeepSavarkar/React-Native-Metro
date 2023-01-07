@@ -32,7 +32,7 @@ const addOrderAction = (params) => async (dispatch) => {
   });
 };
 
-const OderHistroyAction = (params) => async (dispatch) => {
+const OderHistroyAction = (dispatch) => {
   debugger;
   call({
     url: serviceEndpoints.ORDER_HISTROY,

@@ -5,7 +5,6 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  debugger;
   switch (action.type) {
     case userTypes.ORDERINFO:
       return {

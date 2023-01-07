@@ -1,6 +1,5 @@
 const userTypes = {
-    USERINFO: "UserInfo",
-    ORDERINFO:"OrderInfo"
-  };
-  export default userTypes;
-  
+  USERINFO: "UserInfo",
+  ORDERINFO: "OrderInfo",
+};
+export default userTypes;

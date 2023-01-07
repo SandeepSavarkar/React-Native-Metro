@@ -27,7 +27,7 @@ const userLoginAction = (params) => async (dispatch) => {
       dispatch(userInfoAction(result));
       commonUtils.navigate({ route: Routes.Authenticated });
     }
-  });
+  })
 };
 
 const userRegisterAction = (params) => async (dispatch) => {
