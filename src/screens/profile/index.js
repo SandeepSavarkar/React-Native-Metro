@@ -61,13 +61,15 @@ const Profile = (props) => {
             mt={10}
             value={name}
             onChangeText={setName}
+            placeholder="Name"
           />
-          <InputText
+          <InputTexts
             label="Address"
             border_radius={10}
             mt={10}
             value={address}
             onChangeText={setAddress}
+            placeholder="Address"
           />
           <InputText
             label="Mobile"
@@ -75,6 +77,7 @@ const Profile = (props) => {
             mt={10}
             value={props.userData.phoneNo}
             editable={false}
+            placeholder="Mobile"
           />
           <View style={{ alignItems: "center" }}>
             <Button

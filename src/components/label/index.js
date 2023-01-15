@@ -77,7 +77,7 @@ Label.defaultProps = {
     bolder: false,
     lighter: false,
     light: false,
-    color: Color.TEXT_PRIMARY,
+    color: Color.BLACK,
     roboto_regular: false,
     roboto_medium: false,
     device_info: false,
