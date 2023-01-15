@@ -84,4 +84,6 @@ export default {
   OderHistroyAction,
   SingleOrderDetail,
   UpdateOrder,
+  loaderStartAction,
+  loaderStopAction
 };

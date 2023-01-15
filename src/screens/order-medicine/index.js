@@ -29,49 +29,75 @@ const OrderMedicine = (props) => {
   const { navigation, common } = props;
   const [isImageUpload, setIsImageUpload] = useState(false);
 
-  const ImageUpload = (imageData) => {
+  const ImageUpload = async (imageData) => {
     debugger;
-    imageData.map((imgdata) => {
+    let allUrl = [];
+    for (let i = 0; i < imageData.length; i++) {
+      let uri = imageData[i].path;
+      let filename = "med_Images/" + uri.substring(uri.lastIndexOf("/") + 1);
       debugger;
-      const uri = imgdata.path;
+      let reference = storage().ref(filename);
       debugger;
-      const filename = uri.substring(uri.lastIndexOf("/") + 1);
-      const uploadUri =
-        Platform.OS === "ios" ? uri.replace("file://", "") : imgdata.path;
-      debugger;
-      firebase
-        .storage()
-        .ref(imageName)
-        .putFile(uploadUri)
-        .then((snapshot) => {
-          console.log(snapshot, "snapshotsnapshotsnapshot");
-          debugger;
-          //You can check the image is now uploaded in the storage bucket
-          console.log(`${imageName} has been successfully uploaded.`);
-        })
-        .catch((e) => console.log("uploading image error => ", e));
-    });
+      await reference.putFile(uri).then(async () => {
+        const urlpath = await storage().ref(filename).getDownloadURL();
+        console.log("URL", urlpath);
+        allUrl.push(urlpath);
+      });
+    }
+    console.log(allUrl, "allUrlallUrl");
+    debugger;
+    return allUrl;
+
+    // imageData.map((imgdata) => {
+    //   const uri = imgdata.path;
+
+    //   const filename = "med_Images/" + uri.substring(uri.lastIndexOf("/") + 1);
+    //   debugger;
+    //   const reference = storage().ref(filename);
+    //   debugger;
+    //   const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/${filename}`;
+    //   debugger;
+    //   const task = reference.putFile(image.path);
+    //   debugger;
+
+    //   task.on("state_changed", (taskSnapshot) => {
+    //     console.log(
+    //       `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
+    //     );
+    //   });
+
+    //   task.then(async (data) => {
+    //     console.log("Image uploaded to the bucket!", data);
+
+    //     const url = await storage().ref(filename).getDownloadURL();
+    //     console.log("URL", url);
+    //     debugger;
+    //   });
+    //   task.catch((error) => {
+    //     console.log(error, "Error123@");
+    //   });
+    //   debugger;
+    // });
   };
 
   const handleSubmit = async (values) => {
     debugger;
-    ImageUpload(values.images);
+    props.startLoading();
+    debugger;
+    let FetchAllUrll = await ImageUpload(values.images);
+    console.log(FetchAllUrll, "FetchAllUrllFetchAllUrll");
+    debugger;
+    props.stopLoading();
     debugger;
 
     console.log(values.images, "values.imagesvalues.imagesvalues.images");
     debugger;
-    // var formData = new FormData();
-    // formData.append("orderStatus", "Pending");
-    // formData.append("medicines", JSON.stringify(values.medicines));
-    // await values.images.map((item) => {
-    //   formData.append(`images`, {
-    //     name: "Images.jpeg",
-    //     uri: item.path,
-    //     type: item.mime,
-    //   });
-    // });
-
-    // props.orderPlaced(formData);
+    let data = {
+      orderStatus:'Pending',
+      medicines:JSON.stringify(values.medicines),
+      images:FetchAllUrll
+    }
+    // props.orderPlaced(data);
     // console.log("values: ", values);
   };
 
@@ -91,38 +117,11 @@ const OrderMedicine = (props) => {
       width: 500,
       height: 500,
       includeExif: true,
-      mediaType,
+      mediaType: "photo",
+      compressImageQuality: 0.8,
     })
       .then((image) => {
         console.log("Camera image: ", image);
-        debugger;
-        const uri = image.path;
-        debugger;
-        const filename = uri.substring(uri.lastIndexOf("/") + 1);
-        debugger;
-        const reference = storage().ref(filename);
-        debugger;
-        const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/${filename}`;
-        debugger;
-        const task = reference.putFile(image.path);
-        debugger;
-
-        task.on("state_changed", (taskSnapshot) => {
-          console.log(
-            `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
-          );
-        });
-
-        task.then(async (data) => {
-          console.log("Image uploaded to the bucket!", data);
-
-          const url = await storage().ref(filename).getDownloadURL();
-          debugger;
-        });
-        task.catch((error) => {
-          console.log(error, "Error123@");
-        });
-        debugger;
         values.images.push(image);
       })
       .catch((e) => alert(e));
@@ -135,6 +134,8 @@ const OrderMedicine = (props) => {
       sortOrder: "desc",
       includeExif: true,
       forceJpg: true,
+      mediaType: "photo",
+      compressImageQuality: 0.8,
     })
       .then((images) => {
         console.log("Multiple image: ", images);
@@ -373,6 +374,8 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       orderPlaced: order.addOrderAction,
+      startLoading: order.loaderStartAction,
+      stopLoading: order.loaderStopAction,
     },
     dispatch
   );
