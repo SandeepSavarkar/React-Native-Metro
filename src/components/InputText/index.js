@@ -101,6 +101,7 @@ const InputText = (props) => {
           maxLength={props.maxLength}
           keyboardType={props.keyboardType}
           editable={props.editable}
+          placeholderTextColor={props.placeholderColor}
           {...props}
         />
         {props.password ? (
@@ -150,6 +151,7 @@ InputText.defaultProps = {
   ms: 0,
   me: 0,
   placeholder: "",
+  placeholderColor: Color.DARK_GRAYISH_BLUE,
   iconColor: Color.BLACK,
   iconSize: responsiveHeight(3),
   pdLeft: responsiveWidth(1.5),
@@ -172,6 +174,7 @@ InputText.propTypes = {
   ms: PropTypes.number,
   me: PropTypes.number,
   placeholder: PropTypes.string,
+  placeholderColor: PropTypes.string,
   iconColor: PropTypes.string,
   iconSize: PropTypes.number,
   eyeIconColor: PropTypes.string,

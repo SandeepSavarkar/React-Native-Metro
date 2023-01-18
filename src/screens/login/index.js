@@ -109,7 +109,7 @@ const Login = ({ navigation, userInfo }) => {
               onPress={handleSubmit}
             />
             <TouchableOpacity onPress={handleLogin}>
-              <Label mt={10} xlarge me={10} style={{ textAlign: "right" }}>
+              <Label mt={10} xlarge me={10} style={{ textAlign: "right"}}>
                 Sign Up
               </Label>
             </TouchableOpacity>
