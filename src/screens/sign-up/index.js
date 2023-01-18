@@ -24,34 +24,37 @@ const SignUp = ({ navigation, userRegister }) => {
   const handleAlreadyRegister = () => navigation.navigate(Routes.Login);
   const [isVerifyOTP, setIsVerifyOTP] = useState(false);
   const [confirm, setConfirm] = useState(null);
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState("");
 
   const handleRegistertion = async (values) => {
-    debugger
+    debugger;
     try {
-      debugger
-       await confirm.confirm(code);
-      debugger
-
+      debugger;
+      let resultcheck = await confirm.confirm(code);
+      if (resultcheck.isNewUser) {
+        let fcmToken = await AsyncStorage.getItem("fcmToken");
+        let params = {
+          name: values.name,
+          password: values.password,
+          phoneNo: values.phoneNo,
+          address: values.address,
+          isAdmin: false,
+          fcmToken,
+        };
+        userRegister(params);
+      }
+      debugger;
     } catch (error) {
-      debugger
-      console.log('Invalid code.');
+      debugger;
+      console.log("Invalid code.");
     }
-    // let fcmToken = await AsyncStorage.getItem("fcmToken");
-    // let params = {
-    //   name: values.name,
-    //   password: values.password,
-    //   phoneNo: values.phoneNo,
-    //   address: values.address,
-    //   isAdmin: false,
-    //   fcmToken,
-    // };
-    // userRegister(params);
   };
 
   const handleSignUp = async () => {
-    const confirmation = await auth().signInWithPhoneNumber("+918487840846");
-    debugger
+    const confirmation = await auth().signInWithPhoneNumber(
+      "+91" + values.phoneNo
+    );
+    debugger;
     setConfirm(confirmation);
 
     setIsVerifyOTP(true);
