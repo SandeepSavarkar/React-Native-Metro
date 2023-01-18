@@ -63,7 +63,7 @@ const Profile = (props) => {
             onChangeText={setName}
             placeholder="Name"
           />
-          <InputTexts
+          <InputText
             label="Address"
             border_radius={10}
             mt={10}
